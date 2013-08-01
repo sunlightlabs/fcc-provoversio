@@ -4,3 +4,7 @@
 pip-log.txt
 
 settings.py
+
+# Flask-Assets
+*/.webassets-cache
+*/gen/packed.js
