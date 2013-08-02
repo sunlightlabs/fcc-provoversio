@@ -2,52 +2,46 @@
 <html>
     <head>
         <meta charset="utf-8">
-        {% block og %}{% endblock %}
+        <title>An example FCC Form</title>
+        <link rel="stylesheet" href="sfapp/css/bootstrap.min.css">
+        <link rel="stylesheet" href="sfapp/css/sfapp.css">
+        <style>
+            form fieldset { margin-bottom: 2em; }
 
-        <title>{% block title %}{% endblock %}</title>
-
-        {% block head %}{% endblock %}
-
-        <link rel="stylesheet" href="{{ url_for('static', filename='sfapp/css/bootstrap.min.css') }}">
-        <link rel="stylesheet" href="{{ url_for('static', filename='sfapp/css/sfapp.css') }}">
-        {% block css %}{% endblock %}
+            .help-inline, .help-block { font-style: italic; }
+        </style>
 
         <script type="text/javascript" src="//use.typekit.com/tab6neo.js"></script>
         <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
 
-        {% if not config.DEBUG %}
-	        <script>
-	            var _gaq = _gaq || [];
-	            _gaq.push(['_setAccount', '{% block ga %}{% endblock %}']);
-	            _gaq.push(['_trackPageview']);
-	            (function() {
-	                var ga = document.createElement('script');
-	                ga.type = 'text/javascript';
-	                ga.async = true;
-	                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-	                var s = document.getElementsByTagName('script')[0];s.parentNode.insertBefore(ga, s);
-	            })();
-	        </script>
-        {% endif %}
+        <script>
+            var ga_account = null;
+            if (ga_account != null) {
+                var _gaq = _gaq || [];
+                _gaq.push(['_setAccount', '']);
+                _gaq.push(['_trackPageview']);
+                (function() {
+                    var ga = document.createElement('script');
+                    ga.type = 'text/javascript';
+                    ga.async = true;
+                    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                    var s = document.getElementsByTagName('script')[0];s.parentNode.insertBefore(ga, s);
+                })();
+            };
+        </script>
 
     </head>
     <body class="{% block bodyclass %}{% endblock %}">
-
         <div class="sf-header">
             <div class="container">
-                {% block header %}
                 <a class="sf-logo" href="http://www.sunlightfoundation.com">Sunlight Foundation</a>
-                {% endblock header %}
             </div>
         </div>
 
         <div class="container">
-            {% block container %}
-
-            {% endblock %}
+            <div class="content"></div>
         </div>
 
-{% block footer %}
         <div class="sf-footerWrapper">
             <div class="sf-footer container">
                 <div class="row">
@@ -55,7 +49,6 @@
                         <h4>Like this Project and Want to Discover Others Like It?</h4>
                         <span class="tip">Join the Sunlight Foundation's open government community to learn more</span>
                         <form action="/subscribe/" method="post" id="sfapp-subscribe-form" class="form-inline">
-                            {# {% csrf_token %} #}
                             <input type="hidden" name="response" value="json">
                             <input type="text" name="email" placeholder="your email address">
                             <input type="text" name="zipcode" placeholder="your zip code">
@@ -69,10 +62,11 @@
                 </div>
             </div>
         </div>
-{% endblock %}
-
-    {% assets "js_all" %}
-        <script type="text/javascript" src="{{ ASSET_URL }}"></script>
-    {% endassets %}
+            <script type="text/javacsript" src="js/lib/jquery-1.10.2.min.js"></script>
+            <script type="text/javacsript" src="js/lib/modernizr.min.js"></script>
+            <script type="text/javacsript" src="js/lib/handlebars.js"></script>
+            <script type="text/javacsript" src="sfapp/js/bootstrap.min.js"></script>
+            <script type="text/javacsript" src="sfapp/js/sfapp.js"></script>
+            <script type="text/javacsript" src="js/app.js"></script>
     </body>
 </html>
