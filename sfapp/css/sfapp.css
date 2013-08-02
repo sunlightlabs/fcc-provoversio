@@ -218,7 +218,7 @@ legend { padding-bottom: 5px; font-size: 115%; font-weight: bold; margin-bottom:
 
 form label { font-family: Georgia, "Times New Roman", Times, serif; font-size: 110%; }
 
-.span6 input, .span7 input, .span5 input, .span8 input, .content .form-horizontal .asInput, .span6 textarea, .span7 textarea, .span5 textarea, .span8 textarea, .span6 select, .span7 select, .span5 select, .span8 select { width: 300px; font-weight: normal;}
+/*.span6 input, .span7 input, .span5 input, .span8 input, .content .form-horizontal .asInput, .span6 textarea, .span7 textarea, .span5 textarea, .span8 textarea, .span6 select, .span7 select, .span5 select, .span8 select { width: 300px; font-weight: normal;}*/
 .content .form-horizontal label { float: left; width: 160px; text-align: left; padding-top: 5px;}
 .form-horizontal input { clear: right;}
 form li { margin-bottom: 15px; }

@@ -1,14 +1,15 @@
 require.config({ baseUrl: 'js/lib',
     paths: {
         templates:'../templates',
+        data: '../data',
         jquery: 'jquery-1.10.2.min',
         sfapp: '../../sfapp'
     }
 });
 
-require(['jquery', 'text', 'handlebars', 'text!templates/xml.handlebars', 'modernizr.min', 'sfapp/js/bootstrap.min', 'sfapp/js/sfapp'],
-function($, text, handlebars, form_src) {
-
+require(['jquery', 'text', 'handlebars', 'data/typeaheads', 'modernizr.min',
+        'sfapp/js/bootstrap.min', 'sfapp/js/sfapp'],
+function($, text, handlebars, typeaheads) {
     $(document).ready(function($) {
         /*
             Enable placeholders on browsers without native support
@@ -71,6 +72,19 @@ function($, text, handlebars, form_src) {
         });
 
         $('#advertisement_subject').change();
+
+        $('input[name=station_callsign]').typeahead({
+            source: typeaheads.callsigns
+        });
+
+        /*
+            Form submission
+        */
+        $('#fcc_form').submit(function(evt) {
+            console.log("Form submitted");
+            evt.preventDefault();
+            return false;
+        });
     });
 });
 

@@ -42,9 +42,16 @@
             <div class="content">
                 <h2>An example FCC Form</h2>
                 <p class="lead">Demo xplainer graph. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Excepturi, officia, ratione, eius architecto totam ipsum tenetur explicabo rem nihil veniam animi nobis expedita unde consequuntur assumenda ipsam deserunt deleniti perspiciatis.</p>
-                <form id="fcc_form" method="post" action=".">
+                <form id="fcc_form" class="form-horizontal" method="post" action=".">
                     <div class="row">
-                        <fieldset class="span6">
+                        <fieldset class="span5">
+                            <legend>Station Information</legend>
+                            <div class="control-group">
+                                <label class="control-label" for="station_callsign">Station Callsign</label>
+                                <input name="station_callsign" class="input-small" type="text" placeholder="WRAL-TV, e.g." required>
+                            </div>
+                        </fieldset>
+                        <fieldset class="span6 offset1">
                             <legend>Purchase information</legend>
                             <div class="control-group">
                                 <label for="purchase_approved">Purchase approved?</label>
@@ -55,17 +62,11 @@
                                 <label class="control-label" for="contract_amount">Total Amount</label>
                                 <div class="input-prepend">
                                     <span class="add-on">$</span>
-                                    <input class="span2" name="contract_amount" type="number" placeholder="0000.00" required>
+                                    <input name="contract_amount" class="input-small" type="number" placeholder="0000.00" required>
                                 </div>
                                 <span class="help-block">The total amount charged for the broadcast time.</span>
                             </div>
-                            <span class="help-block">Pursuant to 47 U.S.C. 315(e)(2)(A) &amp; 47 U.S.C. 315(e)(2)(B)</span>
                         </fieldset>
-                        <div class="span5 offset1">
-                            <h3>Requirements under 47&nbsp;U.S.C.&nbsp;315(e)(2)</h3>
-                            <p>Explainer that the fields in this form are based on the requirements in the U.S> Code. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Necessitatibus, odit, repellat, totam, cum molestias sed asperiores vero officia magnam animi hic nemo optio corporis sit id vitae eligendi provident! Laborum.</p>
-
-                        </div>
                     </div>
                     <div class="row">
                         <fieldset class="span5">
@@ -81,9 +82,7 @@
                             </div>
                             <div class="control-group">
                                 <label class="control-label" for="candidate_name">Name</label>
-                                <div class="input-prepend">
-                                    <input name="candidate_name" class="span2" type="text" placeholder="Enter candidate, issue, or election name" required>
-                                </div>
+                                <input name="candidate_name" class="span5" type="text" placeholder="Enter candidate, issue, or election name" required>
                             </div>
                             <div id="form_candidate_extras" class="control-group">
                                 <div class="control-group">
@@ -91,9 +90,9 @@
                                     <input name="office_sought" class="span5" type="text" placeholder="Enter office sought">
                                 </div>
                             </div>
-                            <span class="help-block">Pursuant to 47 U.S.C. 315(e)(2)(F): "the name of the candidate to which the communication refers and the office to which the candidate is seeking election, the election to which the communication refers, or the issue to which the communication refers (as applicable)"</span>
+                            <span class="help-block">The name of the candidate and office, the election, or the issue to which the communication refers.</span>
                         </fieldset>
-                        <fieldset class="span5 offset1">
+                        <fieldset class="span6 offset1">
                             <legend>Ad purchaser</legend>
                             <div class="control-group">
                                 <label class="control-label" for="advertiser_name">Ad purchaser</label>
@@ -111,14 +110,10 @@
                                 <label class="control-label" for="advertiser_contact_phone">Contact phone number</label>
                                 <input name="advertiser_contact_phone" class="span2" type="text" placeholder="XXX-XXX-XXXX" required>
                             </div>
-                            <span class="help-block">Pursuant to 47 U.S.C. 315(e)(2)(G)</span>
                         </fieldset>
                     </div>
                     <button class="btn" value="Submit">Submit</button>
                 </form>
-                <div id="app">
-                    <p>This demo form requires javascript to be enabled.</p>
-                </div>
             </div>
         </div>
 
