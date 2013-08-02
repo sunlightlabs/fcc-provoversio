@@ -54,24 +54,35 @@ function($, text, handlebars, typeaheads) {
         /*
             form#fcc_form stuff
         */
-
         $('#advertisement_subject').change(function(evt) {
-            var subject_type = $(this).val();
-            if (subject_type == 'candidate') {
-                $('input[name=candidate_name]').attr('required', 'required');
-                $('#form_candidate_extras').show();
+            var field_val = $(this).val();
+            var el = $("#form_candidate_extras");
+            var inputs = el.find('input').not('[type="checkbox"]');
+            if (field_val == 'candidate') {
+                console.log('what');
+                inputs.attr('required', 'required');
+                el.show();
             }
             else {
-                $('input[name=candidate_name]').removeAttr('required');
-                $('#form_candidate_extras').hide();
+                inputs.attr('required', 'required');
+                el.hide();
             }
-            if (subject_type != "") {
-                var placeholder_text = 'Enter ' + subject_type + ' name';
-                $('input[name=candidate_name]').attr('placeholder', placeholder_text);
-            };
         });
-
         $('#advertisement_subject').change();
+        $('input[name=by_candidate]').change(function(evt) {
+            var checked = $(this).prop("checked");
+            var el = $("#form_committee_details");
+            var inputs = el.find('input').not('[type="checkbox"]');
+            if (checked == true) {
+                inputs.attr('required', 'required');
+                el.show();
+            }
+            else {
+                inputs.attr('required', 'required');
+                el.hide();
+            }
+        });
+       $('input[name=by_candidate]').change();
 
         $('input[name=station_callsign]').typeahead({
             source: typeaheads.callsigns

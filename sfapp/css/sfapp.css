@@ -59,6 +59,10 @@ textarea:focus {
             border-radius: 6px;
 }
 
+.btn-primary, .btn-primary:visited {
+    color: #FFF;
+}
+
 .btn-sunlight, .btn-sunlight:hover, .btn-sunlight:link, .btn-sunlight:active, .btn-sunlight:visited {
     color: #fdfcfb;
     background-color: #ce6100;
@@ -222,8 +226,8 @@ form label { font-family: Georgia, "Times New Roman", Times, serif; font-size: 1
 .content .form-horizontal label { float: left; width: 160px; text-align: left; padding-top: 5px;}
 .form-horizontal input { clear: right;}
 form li { margin-bottom: 15px; }
-input[type=checkbox] { width: 15px; }
-.container .content .checkbox input { width: 15px; margin-right: 10px; float: left; margin-top: 5px;}
+/*input[type=checkbox] { width: 15px; }*/
+/*.container .content .checkbox input { width: 15px; margin-right: 10px; float: left; margin-top: 5px;}*/
 .normalList li { clear: both; }
 
 .sf-footerWrapper { background-color: #fafaf7; border-top: 1px solid #ece9e9; margin-top: 70px; padding-top: 50px; min-height: 220px;}
