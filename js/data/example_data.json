@@ -1,0 +1,30 @@
+{
+    "station": {
+        "callsign": "WRAL-TV"
+    },
+    "purchase": { "is_approved": true },
+    "contract": {
+        "amount": 33000.00
+    },
+    "advertiser": {
+        "name": "Something, Inc",
+        "contact": {
+            "name": "Johnny Rotten",
+            "address": "1212 N Street NW, Washington, DC 20009",
+            "phone": "555-333-0000"
+        }
+    },
+    "advertisement": {
+        "subject": "candidate"
+    },
+    "subject": {
+        "fec_id": "C098A34",
+        "name": "KWARG",
+        "office_sought": "Best Person",
+        "is_by_candidate": true
+    },
+    "committee": {
+        "name": "Something",
+        "treasurer": "Sally Sue"
+    }
+}

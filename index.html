@@ -7,12 +7,16 @@
         <link rel="stylesheet" href="sfapp/css/sfapp.css">
         <style>
             form fieldset { margin-bottom: 2em; }
-
             .help-inline, .help-block { font-style: italic; }
+            #app-container {
+                min-height: 1000px;
+            }
         </style>
 
+<!--
         <script type="text/javascript" src="//use.typekit.com/tab6neo.js"></script>
         <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+-->
 
         <script>
             var ga_account = null;
@@ -39,76 +43,15 @@
         </div>
 
         <div class="container">
-            <div class="content">
+            <div id="app-container" class="content">
                 <h2>An example FCC Form</h2>
                 <p class="lead">Demo xplainer graph. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Excepturi, officia, ratione, eius architecto totam ipsum tenetur explicabo rem nihil veniam animi nobis expedita unde consequuntur assumenda ipsam deserunt deleniti perspiciatis.</p>
-                <form id="fcc_form" method="post" action=".">
-                    <div class="row">
-                        <div class="span5">
-                            <fieldset>
-                                <legend>Purchase information</legend>
-                                <label class="control-label" for="station_callsign">Station Callsign</label>
-                                <input name="station_callsign" class="input-small" type="text" placeholder="WRAL-TV, e.g." required>
-                                <label class="checkbox" for="purchase_approved">
-                                    <input name="purchase_approved" type="checkbox" value="purchase_approved" checked> Was the request to purchase broadcast time accepted?
-                                </label>
-                                <label class="control-label" for="contract_amount">Total Amount</label>
-                                <div class="input-prepend">
-                                    <span class="add-on">$</span>
-                                    <input name="contract_amount" class="input-small" type="number" placeholder="0000.00" required>
-                                </div>
-                                <span class="help-block">The total amount charged for the broadcast time.</span>
-                            </fieldset>
-                            <fieldset>
-                                <legend>Ad purchaser</legend>
-                                <label class="control-label" for="advertiser_name">Ad purchaser</label>
-                                <input name="advertiser_name" class="span5" type="text" placeholder="Name of the person/organization purchasing the time" required>
-                                <label class="control-label" for="advertiser_contact_name">Contact name</label>
-                                <input name="advertiser_contact_name" class="span5" type="text" placeholder="Enter name of contact person for ad purchaser" required>
-                                <label class="control-label" for="advertiser_contact_address">Contact address</label>
-                                <input name="advertiser_contact_address" class="span5" type="text" placeholder="227 Madeuppington Boulevard, Suite 2121, Washington, D.C. 20009" required>
-                                <label class="control-label" for="advertiser_contact_phone">Contact phone number</label>
-                                <input name="advertiser_contact_phone" class="span2" type="tel" placeholder="XXX-XXX-XXXX" required>
-                            </fieldset>
-                        </div>
-                        <div class="span6 offset1">
-                            <fieldset>
-                                <legend>Subject of ad: Candidate, Issue, or Election</legend>
-                                <label class="control-label" for="advertisement_subject">Advertisement subject</label>
-                                <select name="advertisement_subject" id="advertisement_subject" required>
-                                    <option value="" selected> ------------ </option>
-                                    <option value="candidate">Candidate</option>
-                                    <option value="issue">Issue</option>
-                                    <option value="election">Election</option>
-                                </select>
-                                <label class="control-label" for="subject_name">Name</label>
-                                <input name="subject_name" class="span5" type="text" placeholder="Enter candidate, issue, or election name" required>
-                                <input type="hidden" name="subject_fec_id">
-                                <span class="help-block">The name of the candidate and office, the election, or the issue to which the communication refers.</span>
-                                <div id="form_candidate_extras" class="hidden">
-                                    <label class="control-label" for="office_sought">Office sought</label>
-                                    <input name="office_sought" class="span5" type="text" placeholder="Enter office sought">
-                                    <label class="checkbox" for="by_candidate">
-                                        <input name="by_candidate" type="checkbox" value="by_candidate">
-                                        By, or on behalf of, a candidate?
-                                    </label>
-                                </div>
-                                <div id="form_committee_details" class="hidden">
-                                    <label class="control-label" for="committee_name">Committee of the candidate</label>
-                                    <input name="committee_name" class="span5" type="text" placeholder="Enter the candidate's committee name">
-                                    <label class="control-label" for="committee_treasurer">Committee Treasurer</label>
-                                    <input name="committee_treasurer" class="span5" type="text" placeholder="Enter name of the committee's treasurer">
-                                </div>
-                            </fieldset>
-                        </div>
+                <div id="app">
+                    <div class="alert">
+                        <h4>Warning!</h4>
+                        <p>If you see this instead of a form, the form failed to load. Please make sure you have a<a href="http://www.whatbrowser.org/"> modern browser</a> with JavaScript enabled.</p>
                     </div>
-                    <div class="row">
-                        <div class="span3">
-                            <button class="btn btn-sunlight" value="Submit">Submit</button>
-                            <button class="btn" type="reset" value="Reset">Reset</button>
-                        </div>
-                    </div>
-                </form>
+                </div>
             </div>
         </div>
 
