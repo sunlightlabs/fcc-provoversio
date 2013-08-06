@@ -11,6 +11,9 @@
             #app-container {
                 min-height: 1000px;
             }
+            .muted, input.muted {
+                color: #999;
+            }
         </style>
 
 <!--
@@ -46,10 +49,25 @@
             <div id="app-container" class="content">
                 <h2>An example FCC Form</h2>
                 <p class="lead">Demo xplainer graph. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Excepturi, officia, ratione, eius architecto totam ipsum tenetur explicabo rem nihil veniam animi nobis expedita unde consequuntur assumenda ipsam deserunt deleniti perspiciatis.</p>
-                <div id="app">
-                    <div class="alert">
-                        <h4>Warning!</h4>
-                        <p>If you see this instead of a form, the form failed to load. Please make sure you have a<a href="http://www.whatbrowser.org/"> modern browser</a> with JavaScript enabled.</p>
+                <div class="row">
+                    <div id="app-nav" class="span3">
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui, soluta, necessitatibus doloribus possimus obcaecati veritatis.</p>
+                        <button id="load_eg" class="btn btn-primary" type="button">Show Example Data</button>
+                    </div>
+                    <div id="app-form" class="span9">
+                        <div class="alert">
+                            <h4>Warning!</h4>
+                            <p>If you see this instead of a form, the form failed to load. Please make sure you have a<a href="http://www.whatbrowser.org/"> modern browser</a> with JavaScript enabled.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="span3">
+                        <h4>This is a view of the data</h4>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Modi nemo perferendis iure iusto non assumenda repudiandae. Rerum, distinctio, officiis nulla voluptates qui ullam nobis cum sed excepturi laboriosam. Fuga, dicta?</p>
+                    </div>
+                    <div class="span9">
+                        <div id="app-data"></div>
                     </div>
                 </div>
             </div>
