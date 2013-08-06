@@ -131,7 +131,7 @@
                                         <span class="help-block">The name of the candidate and office, the election, or the issue to which the communication refers.</span>
                                         <div id="form_candidate_extras" data-bind='visible: subjectIsCandidate()'>
                                             <label class="control-label" for="office_sought">Office sought</label>
-                                            <input name="office_sought" class="span4" type="text" placeholder="Enter office sought" data-bind="value: subjectOfficeSought">
+                                            <input name="office_sought" class="span4" type="text" placeholder="Enter office sought" data-bind="value: subjectOfficeSought, attr: { required: subjectIsCandidate() }">
                                             <label class="checkbox" for="by_candidate">
                                                 <input name="by_candidate" type="checkbox" value="by_candidate" data-bind="checked: isByCandidate">
                                                 By, or on behalf of, a candidate?
@@ -139,9 +139,9 @@
                                         </div>
                                         <div id="form_committee_details" data-bind="visible: isByCandidate">
                                             <label class="control-label" for="committee_name">Committee of the candidate</label>
-                                            <input id="committee_name" name="committee_name" class="span4" type="text" placeholder="Enter the candidate's committee name" data-bind="value: committeeName">
+                                            <input id="committee_name" name="committee_name" class="span4" type="text" placeholder="Enter the candidate's committee name" data-bind="value: committeeName, attr: { required: isByCandidate() }">
                                             <label class="control-label" for="committee_treasurer">Committee Treasurer</label>
-                                            <input name="committee_treasurer" class="span4" type="text" placeholder="Enter name of the committee's treasurer" data-bind="value: committeeTreasurer">
+                                            <input name="committee_treasurer" class="span4" type="text" placeholder="Enter name of the committee's treasurer" data-bind="value: committeeTreasurer, attr: { required: isByCandidate() }">
                                         </div>
                                     </fieldset>
                                 </div>

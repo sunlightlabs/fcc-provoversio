@@ -38,7 +38,7 @@ function($, JSON, ko, _, typeaheads) {
         this.subjectIsCandidate = function() {
             return (this.advertisementSubject() == 'Candidate');
         };
-        this.isByCandidate = ko.observable(false);
+        this.isByCandidate = ko.observable();
         this.subjectFecId = ko.observable();
         this.subjectName = ko.observable();
         this.subjectOfficeSought = ko.observable();
