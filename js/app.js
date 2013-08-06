@@ -3,24 +3,65 @@ require.config({ baseUrl: 'js/lib',
     shim: { "underscore-min": { exports: '_' } }
 });
 
-require(['jquery', 'underscore-min', 'text', 'handlebars',
-        'text!templates/form.handlebars','text!templates/payload.xml.handlebars', 'data/typeaheads',
+require(['jquery', 'json2', 'knockout-2.3.0', 'underscore-min', 'data/typeaheads',
         'modernizr.min', 'sfapp/js/bootstrap.min', 'sfapp/js/sfapp'],
-function($, _, text, handlebars, form_src, xml_src, typeaheads) {
-    var fec_names, form_tpl, xml_tpl,
-    data_uri, subject_selector, candidate_check_selector;
+function($, JSON, ko, _, typeaheads) {
+    var fec_names, data_uri, subject_selector, candidate_check_selector;
 
-    subject_selector = 'select[name=advertisement_subject]';
-    candidate_check_selector = 'input[name=by_candidate]';
-    // Data and tpl setup
-    data_uri = 'js/data/example_data.json';
-    form_tpl = Handlebars.compile(form_src);
-    xml_tpl = Handlebars.compile(xml_src);
+    var exampleData = {
+        "stationCallsign": "WRAL-TV",
+        "purchaseApproved": true,
+        "contractAmount": 33000.00,
+        "advertiserName": "Something, Inc",
+        "advertiserContactName": "Johnny Rotten",
+        "advertiserContactAddress": "1212 N Street NW,\nSuite 1999\nWashington,DC 20009",
+        "advertiserContactPhone": "555-333-0000",
+        "advertisementSubject": "Candidate",
+        "isByCandidate": true,
+        "subjectFecId": "C098A34",
+        "subjectName": "KWARG",
+        "subjectOfficeSought": "Best Person",
+        "committeeName": "Something",
+        "committeeTreasurer": "Sally Sue"
+    };
 
-    function trigger_form_changes () {
-        $(subject_selector).change();
-        $(candidate_check_selector).change();
+    function FormViewModel() {
+        this.stationCallsign = ko.observable();
+        this.purchaseApproved = ko.observable(true);
+        this.contractAmount = ko.observable();
+        this.advertiserName = ko.observable();
+        this.advertiserContactName = ko.observable();
+        this.advertiserContactAddress = ko.observable();
+        this.advertiserContactPhone = ko.observable();
+        this.advertisementSubjectOptions = ko.observableArray(['Candidate', 'Issue', 'Election']);
+        this.advertisementSubject = ko.observable();
+        this.subjectIsCandidate = function() {
+            return (this.advertisementSubject() == 'Candidate');
+        };
+        this.isByCandidate = ko.observable(false);
+        this.subjectFecId = ko.observable();
+        this.subjectName = ko.observable();
+        this.subjectOfficeSought = ko.observable();
+        this.committeeName = ko.observable();
+        this.committeeTreasurer = ko.observable();
+        this.trimForExport = function (key, value) {
+            if (key == "advertisementSubjectOptions") {
+                return undefined;
+            }
+            return value;
+        }
+        this.resetForm = function() {
+            this.advertiserContactAddress('');
+            return true;
+        };
+        this.submitForm = function(formElement) {
+            console.log("Submit form");
+        };
     }
+
+    var appFormView = new FormViewModel();
+
+    ko.applyBindings(appFormView);
 
     function attach_typeaheads () {
         $('input[name=station_callsign]').typeahead({
@@ -90,8 +131,6 @@ function($, _, text, handlebars, form_src, xml_src, typeaheads) {
 
     $(document).ready(function($) {
         // Display form
-        $('#app-form').html(form_tpl);
-        trigger_form_changes();
         attach_typeaheads();
         processPlaceholders();
         fec_names = _.keys(typeaheads.fec);
@@ -99,74 +138,21 @@ function($, _, text, handlebars, form_src, xml_src, typeaheads) {
         // Button for loading example data
         $(document).on('click', '#load_eg', function(event) {
             event.preventDefault();
-            $('#app-form').fadeOut('slow', function() {
-                $.getJSON(data_uri, function(json, textStatus, jqXHR) {
-                    var compiled = form_tpl(json);
-                    $('#app-form').html(compiled);
-                    $('#app-form').fadeIn('slow', function() {
-                        $('#advertisement_subject option').filter('[value='+ json.advertisement.subject + ']').prop('selected', true);
-                        trigger_form_changes();
-                        attach_typeaheads();
-                        processPlaceholders();
-                    });
-                    var comp_xml = xml_tpl(json);
-                    var pre = $('<pre>');
-                    pre.html(comp_xml);
-                    $('#app-data').html(pre);
-                });
-
-            });
+            appFormView.stationCallsign(exampleData.stationCallsign);
+            appFormView.purchaseApproved(exampleData.purchaseApproved);
+            appFormView.contractAmount(exampleData.contractAmount);
+            appFormView.advertiserName(exampleData.advertiserName);
+            appFormView.advertiserContactName(exampleData.advertiserContactName);
+            appFormView.advertiserContactAddress(exampleData.advertiserContactAddress);
+            appFormView.advertiserContactPhone(exampleData.advertiserContactPhone);
+            appFormView.advertisementSubject(exampleData.advertisementSubject);
+            appFormView.isByCandidate(exampleData.isByCandidate);
+            appFormView.subjectFecId(exampleData.subjectFecId);
+            appFormView.subjectName(exampleData.subjectName);
+            appFormView.subjectOfficeSought(exampleData.subjectOfficeSought);
+            appFormView.committeeName(exampleData.committeeName);
+            appFormView.committeeTreasurer(exampleData.committeeTreasurer);
         });
-
-        /*
-            form#fcc_form Events
-        */
-        $(document).on('change', subject_selector, function(evt) {
-            var field_val = $(this).val();
-            var el = $("#form_candidate_extras");
-            var inputs = el.find('input').not('[type="checkbox"]');
-            if (field_val == 'candidate') {
-                inputs.attr('required', 'required');
-                el.show();
-            }
-            else {
-                inputs.removeAttr('required');
-                el.hide();
-            }
-        });
-        $(document).on('change', candidate_check_selector, function(evt) {
-            var checked = $(this).prop("checked");
-            var el = $("#form_committee_details");
-            var inputs = el.find('input').not('[type="checkbox"]');
-            if (checked === true) {
-                inputs.attr('required', 'required');
-                el.show();
-            }
-            else {
-                inputs.removeAttr('required');
-                el.hide();
-            }
-        });
-
-        $(document).on('submit', '#fcc_form', function(event) {
-            event.preventDefault();
-            console.log("Submit form");
-        });
-
-        $(document).on('click', '#fakereset', function(event) {
-            event.preventDefault();
-            $('#app-form').fadeOut('fast', function() {
-                // var compiled = form_tpl();
-                $('#app-form').html(form_tpl);
-                $('#app-form').fadeIn('fast', function() {
-                    trigger_form_changes();
-                    attach_typeaheads();
-                    processPlaceholders();
-                });
-            });
-        });
-
-
     });
 });
 
