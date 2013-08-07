@@ -21,7 +21,7 @@ function($, JSON, ko, _, typeaheads) {
         "subjectFecId": "C098A34",
         "subjectName": "KWARG",
         "subjectOfficeSought": "Best Person",
-        "committeeName": "Something",
+        "committeeName": "AMERICAN CROSSROADS", // "C00487363"
         "committeeTreasurer": "Sally Sue"
     };
 
@@ -43,6 +43,7 @@ function($, JSON, ko, _, typeaheads) {
         this.subjectName = ko.observable();
         this.subjectOfficeSought = ko.observable();
         this.committeeName = ko.observable();
+        this.committeeFecId = ko.observable();
         this.committeeTreasurer = ko.observable();
         this.trimForExport = function (key, value) {
             if (key == "advertisementSubjectOptions") {
@@ -56,6 +57,16 @@ function($, JSON, ko, _, typeaheads) {
         };
         this.submitForm = function(formElement) {
             console.log("Submit form");
+        };
+        this.matchCommitteeToFecId = function() {
+            try {
+                var fecId = typeaheads.fec[this.committeeName()];
+                if (fecId != null) {
+                    this.committeeFecId = fecId;
+                    return this.committeeFecId;
+                };
+            }
+            catch(e){return null;};
         };
     }
 
@@ -129,30 +140,32 @@ function($, JSON, ko, _, typeaheads) {
         }
     }
 
+    // Button for loading example data
+    $(document).on('click', '#load_eg', function(event) {
+        event.preventDefault();
+        appFormView.stationCallsign(exampleData.stationCallsign);
+        appFormView.purchaseApproved(exampleData.purchaseApproved);
+        appFormView.contractAmount(exampleData.contractAmount);
+        appFormView.advertiserName(exampleData.advertiserName);
+        appFormView.advertiserContactName(exampleData.advertiserContactName);
+        appFormView.advertiserContactAddress(exampleData.advertiserContactAddress);
+        appFormView.advertiserContactPhone(exampleData.advertiserContactPhone);
+        appFormView.advertisementSubject(exampleData.advertisementSubject);
+        appFormView.isByCandidate(exampleData.isByCandidate);
+        appFormView.subjectFecId(exampleData.subjectFecId);
+        appFormView.subjectName(exampleData.subjectName);
+        appFormView.subjectOfficeSought(exampleData.subjectOfficeSought);
+        appFormView.committeeName(exampleData.committeeName);
+        appFormView.committeeTreasurer(exampleData.committeeTreasurer);
+    });
+
+    fec_names = _.keys(typeaheads.fec);
+
+
     $(document).ready(function($) {
         // Display form
         attach_typeaheads();
         processPlaceholders();
-        fec_names = _.keys(typeaheads.fec);
-
-        // Button for loading example data
-        $(document).on('click', '#load_eg', function(event) {
-            event.preventDefault();
-            appFormView.stationCallsign(exampleData.stationCallsign);
-            appFormView.purchaseApproved(exampleData.purchaseApproved);
-            appFormView.contractAmount(exampleData.contractAmount);
-            appFormView.advertiserName(exampleData.advertiserName);
-            appFormView.advertiserContactName(exampleData.advertiserContactName);
-            appFormView.advertiserContactAddress(exampleData.advertiserContactAddress);
-            appFormView.advertiserContactPhone(exampleData.advertiserContactPhone);
-            appFormView.advertisementSubject(exampleData.advertisementSubject);
-            appFormView.isByCandidate(exampleData.isByCandidate);
-            appFormView.subjectFecId(exampleData.subjectFecId);
-            appFormView.subjectName(exampleData.subjectName);
-            appFormView.subjectOfficeSought(exampleData.subjectOfficeSought);
-            appFormView.committeeName(exampleData.committeeName);
-            appFormView.committeeTreasurer(exampleData.committeeTreasurer);
-        });
     });
 });
 

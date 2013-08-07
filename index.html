@@ -140,6 +140,7 @@
                                         <div id="form_committee_details" data-bind="visible: isByCandidate">
                                             <label class="control-label" for="committee_name">Committee of the candidate</label>
                                             <input id="committee_name" name="committee_name" class="span4" type="text" placeholder="Enter the candidate's committee name" data-bind="value: committeeName, attr: { required: isByCandidate() }">
+                                            <input type="hidden" name="committee_fec_id" data-bind="value: matchCommitteeToFecId()">
                                             <label class="control-label" for="committee_treasurer">Committee Treasurer</label>
                                             <input name="committee_treasurer" class="span4" type="text" placeholder="Enter name of the committee's treasurer" data-bind="value: committeeTreasurer, attr: { required: isByCandidate() }">
                                         </div>
