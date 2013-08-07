@@ -25,6 +25,7 @@ function($, JSON, ko, _, typeaheads) {
     };
 
     function FormViewModel() {
+        this.exampleData =
         this.stationCallsign = ko.observable();
         this.purchaseApproved = ko.observable(true);
         this.contractAmount = ko.observable();
@@ -50,12 +51,16 @@ function($, JSON, ko, _, typeaheads) {
             }
             return value;
         }
+        this.exampleJSON = function() {
+            return ko.toJSON(exampleData, null, 4);
+        };
         this.resetForm = function() {
             this.advertiserContactAddress('');
             return true;
         };
         this.submitForm = function(formElement) {
-            console.log("Submit form");
+            // console.log("Submit form");
+            $('#form-submit-modal').modal();
         };
         this.matchCommitteeToFecId = function() {
             try {
@@ -159,7 +164,7 @@ function($, JSON, ko, _, typeaheads) {
     }
 
     // Button for loading example data
-    $(document).on('click', '#load_eg', function(event) {
+    $(document).on('click', '#fill-approve', function(event) {
         event.preventDefault();
         appFormView.stationCallsign(exampleData.stationCallsign);
         appFormView.purchaseApproved(exampleData.purchaseApproved);
@@ -175,6 +180,7 @@ function($, JSON, ko, _, typeaheads) {
         appFormView.subjectOfficeSought(exampleData.subjectOfficeSought);
         appFormView.committeeName(exampleData.committeeName);
         appFormView.committeeTreasurer(exampleData.committeeTreasurer);
+        $('#example-modal').modal('hide')
     });
 
     committee_names = _.keys(typeaheads.committees);

@@ -17,12 +17,17 @@
             .terminal {
                 color: #468847;
             }
+            .tab-pane {
+                padding: 8px;
+            }
+            .tab-content {
+                border: 1px solid #ddd;
+                border-top: none;
+            }
         </style>
 
-<!--
         <script type="text/javascript" src="//use.typekit.com/tab6neo.js"></script>
         <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
--->
 
         <script>
             var ga_account = null;
@@ -40,6 +45,40 @@
             };
         </script>
 
+        <script type="text/html" id="xml-template">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;payload&gt;
+    &lt;station&gt;
+        &lt;callsign&gt;<span data-bind="text: stationCallsign"></span>&lt;/callsign&gt;
+    &lt;/station&gt;
+    &lt;purchase&gt;
+        &lt;isApproved&gt;<span data-bind="text: purchaseApproved"></span>&lt;/isApproved&gt;
+    &lt;/purchase&gt;
+    &lt;contract&gt;
+        &lt;amount&gt;<span data-bind="text: contractAmount"></span>&lt;/amount&gt;
+    &lt;/contract&gt;
+    &lt;advertiser&gt;
+        &lt;name&gt;<span data-bind="text: advertiserName"></span>&lt;/name&gt;
+        &lt;contact&gt;
+            &lt;name&gt;<span data-bind="text: advertiserContactName"></span>&lt;/name&gt;
+            &lt;address&gt;&lt;![CDATA[<span data-bind="text: advertiserContactAddress"></span>]]&gt;&lt;/address&gt;
+            &lt;phone&gt;<span data-bind="text: advertiserContactPhone"></span>&lt;/phone&gt;
+        &lt;/contact&gt;
+    &lt;/advertiser&gt;
+    &lt;advertisement&gt;
+        &lt;subject&gt;<span data-bind="text: advertisementSubject"></span>&lt;/subject&gt;
+        &lt;isByCandidate&gt;<span data-bind="text: isByCandidate"></span>&lt;/isByCandidate&gt;
+    &lt;/advertisement&gt;
+    &lt;subject&gt;
+        &lt;name&gt;<span data-bind="text: subjectName"></span>&lt;/name&gt;
+        &lt;fecId&gt;<span data-bind="text: subjectFecId"></span>&lt;/fecId&gt;
+        &lt;officeSought&gt;<span data-bind="text: subjectOfficeSought"></span>&lt;/officeSought&gt;
+    &lt;/subject&gt;
+    &lt;committee&gt;
+        &lt;name&gt;<span data-bind="text: committeeName"></span>&lt;/name&gt;
+        &lt;treasurer&gt;<span data-bind="text: committeeTreasurer"></span>&lt;/treasurer&gt;
+    &lt;/committee&gt;
+&lt;/payload&gt;</script>
+
     </head>
     <body>
         <div class="sf-header">
@@ -55,7 +94,7 @@
                 <div class="row">
                     <div id="app-nav" class="span3">
                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui, soluta, necessitatibus doloribus possimus obcaecati veritatis.</p>
-                        <button id="load_eg" class="btn btn-primary" type="button">Load Example Data</button>
+                        <button data-toggle="modal" data-target="#example-modal" class="btn btn-primary" type="button">Load Example Data</button>
                     </div>
                     <div id="app-form" class="span9">
                         <form id="fcc_form" method="post" action="." autocomplete="off" data-bind="submit: submitForm">
@@ -124,44 +163,16 @@
 
                     </div>
                 </div>
-                <h4>This is a view of the data</h4>
-                <div class="row">
-                    <div class="span6">
-                        <pre class="pre-scrollable"><code class="language-markup terminal">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;payload&gt;
-    &lt;station&gt;
-        &lt;callsign&gt;<span data-bind="text: stationCallsign"></span>&lt;/callsign&gt;
-    &lt;/station&gt;
-    &lt;purchase&gt;
-        &lt;isApproved&gt;<span data-bind="text: purchaseApproved"></span>&lt;/isApproved&gt;
-    &lt;/purchase&gt;
-    &lt;contract&gt;
-        &lt;amount&gt;<span data-bind="text: contractAmount"></span>&lt;/amount&gt;
-    &lt;/contract&gt;
-    &lt;advertiser&gt;
-        &lt;name&gt;<span data-bind="text: advertiserName"></span>&lt;/name&gt;
-        &lt;contact&gt;
-            &lt;name&gt;<span data-bind="text: advertiserContactName"></span>&lt;/name&gt;
-            &lt;address&gt;&lt;![CDATA[<span data-bind="text: advertiserContactAddress"></span>]]&gt;&lt;/address&gt;
-            &lt;phone&gt;<span data-bind="text: advertiserContactPhone"></span>&lt;/phone&gt;
-        &lt;/contact&gt;
-    &lt;/advertiser&gt;
-    &lt;advertisement&gt;
-        &lt;subject&gt;<span data-bind="text: advertisementSubject"></span>&lt;/subject&gt;
-        &lt;isByCandidate&gt;<span data-bind="text: isByCandidate"></span>&lt;/isByCandidate&gt;
-    &lt;/advertisement&gt;
-    &lt;subject&gt;
-        &lt;name&gt;<span data-bind="text: subjectName"></span>&lt;/name&gt;
-        &lt;fecId&gt;<span data-bind="text: subjectFecId"></span>&lt;/fecId&gt;
-        &lt;officeSought&gt;<span data-bind="text: subjectOfficeSought"></span>&lt;/officeSought&gt;
-    &lt;/subject&gt;
-    &lt;committee&gt;
-        &lt;name&gt;<span data-bind="text: committeeName"></span>&lt;/name&gt;
-        &lt;treasurer&gt;<span data-bind="text: committeeTreasurer"></span>&lt;/treasurer&gt;
-    &lt;/committee&gt;
-&lt;/payload&gt;</code></pre>
+                <h4>A form can easily process data and present it in a structured format.</h4>
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#xml" data-toggle="tab">XML</a></li>
+                    <li><a href="#json" data-toggle="tab">JSON</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div id="xml" class="tab-pane active">
+                        <pre class="pre-scrollable"><code class="language-markup terminal" data-bind="template: 'xml-template'"></code></pre>
                     </div>
-                    <div class="span6">
+                    <div id="json"class="tab-pane">
                         <pre class="pre-scrollable"><code class="language-javascript terminal" data-bind="text: ko.toJSON($root, function (key, value) { return (key == 'advertisementSubjectOptions') ? undefined : value; }, 4)"></code></pre>
                     </div>
                 </div>
@@ -186,6 +197,35 @@
                         <p>This work by <a href="http://sunlightfoundation.com">Sunlight Foundation</a>, unless <a href="http://sunlightfoundation.com/colophon/">otherwise noted</a>, is licensed under a <a href="http://creativecommons.org/licenses/by/3.0/us/">Creative Commons Attribution 3.0 United States License</a>.</p>
                     </div>
                 </div>
+            </div>
+        </div>
+        <div id="example-modal" class="modal hide fade">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3>Load Data</h3>
+            </div>
+            <div class="modal-body">
+                <p>An advertising system could generate and submit data in a machine readable format, such as JSON or XML.</p>
+                <pre class="pre-scrollable"><code class="language-javascript terminal" data-bind="text: exampleJSON()"></code></pre>
+
+            </div>
+            <div class="modal-footer">
+                <button id="fill-approve" class="btn btn-primary">Fill form with data</button>
+                <button class="btn" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+        <div id="form-submit-modal" class="modal hide fade">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3>Form submit</h3>
+            </div>
+            <div class="modal-body">
+                <p>Something to drive home point abot ease and ad systems pumping out XML/JSON</p>
+                <pre class="pre-scrollable"><code class="language-javascript terminal" data-bind="text: exampleJSON()"></code></pre>
+
+            </div>
+            <div class="modal-footer">
+                <button data-dismiss="modal" class="btn btn-primary">Okay</button>
             </div>
         </div>
             <script data-main="/js/app"  src="/js/require.js" type="text/javascript" charset="utf-8"></script>
