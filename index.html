@@ -5,6 +5,7 @@
         <title>An example FCC Form</title>
         <link rel="stylesheet" href="sfapp/css/bootstrap.min.css">
         <link rel="stylesheet" href="sfapp/css/sfapp.css">
+        <link rel="stylesheet" href="css/prism.css">
         <style>
             form fieldset { margin-bottom: 2em; }
             .help-inline, .help-block { font-style: italic; }
@@ -127,7 +128,7 @@
                                         <select name="advertisement_subject" id="advertisement_subject" required data-bind="options: advertisementSubjectOptions, value: advertisementSubject, optionsCaption: 'Choose...'"></select>
                                         <label class="control-label" for="subject_name">Subject name or description</label>
                                         <input name="subject_name" class="span4" type="text" placeholder="Enter candidate, issue, or election name" required data-bind="value: subjectName">
-                                        <input type="hidden" name="subject_fec_id" data-bind="value: subjectFecId">
+                                        <input type="hidden" name="subject_fec_id" data-bind="value: matchSubjectToFecId()">
                                         <span class="help-block">The name of the candidate and office, the election, or the issue to which the communication refers.</span>
                                         <div id="form_candidate_extras" data-bind='visible: subjectIsCandidate()'>
                                             <label class="control-label" for="office_sought">Office sought</label>
@@ -163,8 +164,8 @@
                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Modi nemo perferendis iure iusto non assumenda repudiandae. Rerum, distinctio, officiis nulla voluptates qui ullam nobis cum sed excepturi laboriosam. Fuga, dicta?</p>
                     </div>
                     <div class="span9">
-                        <!-- <div id="app-data" data-bind="template: 'xmlTemplate'"> -->
-                        <pre data-bind="text: ko.toJSON($root, function (key, value) { return (key == 'advertisementSubjectOptions') ? undefined : value; }, 4)"></pre>
+                        <!-- <div id="app-data" data-bind="template: 'xmlTemplate'"></div> -->
+                        <pre class="prettyprint" ><code class="language-javascript" data-bind="html: highlightedJSON()"></code></pre>
                     </div>
                 </div>
             </div>

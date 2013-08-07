@@ -1,12 +1,12 @@
 require.config({ baseUrl: 'js/lib',
     paths: { templates:'../tpl', data: '../data', jquery: 'jquery-1.10.2.min', sfapp: '../../sfapp' },
-    shim: { "underscore-min": { exports: '_' } }
+    shim: { "underscore-min": { exports: '_' }, "prism": { exports: 'Prism' } }
 });
 
-require(['jquery', 'json2', 'knockout-2.3.0', 'underscore-min', 'data/typeaheads',
+require(['jquery', 'json2', 'knockout-2.3.0', 'underscore-min', 'prism', 'data/typeaheads',
         'modernizr.min', 'sfapp/js/bootstrap.min', 'sfapp/js/sfapp'],
-function($, JSON, ko, _, typeaheads) {
-    var fec_names, data_uri, subject_selector, candidate_check_selector;
+function($, JSON, ko, _, Prism, typeaheads) {
+    var committee_names, candidate_names, data_uri, subject_selector, candidate_check_selector;
 
     var exampleData = {
         "stationCallsign": "WRAL-TV",
@@ -18,7 +18,6 @@ function($, JSON, ko, _, typeaheads) {
         "advertiserContactPhone": "555-333-0000",
         "advertisementSubject": "Candidate",
         "isByCandidate": true,
-        "subjectFecId": "C098A34",
         "subjectName": "KWARG",
         "subjectOfficeSought": "Best Person",
         "committeeName": "AMERICAN CROSSROADS", // "C00487363"
@@ -60,13 +59,27 @@ function($, JSON, ko, _, typeaheads) {
         };
         this.matchCommitteeToFecId = function() {
             try {
-                var fecId = typeaheads.fec[this.committeeName()];
+                var fecId = typeaheads.committees[this.committeeName()];
                 if (fecId != null) {
                     this.committeeFecId = fecId;
                     return this.committeeFecId;
                 };
             }
             catch(e){return null;};
+        };
+        this.matchSubjectToFecId = function() {
+            try {
+                var fecId = typeaheads.candidates[this.subjectName()];
+                if (fecId != null) {
+                    this.subjectFecId = fecId;
+                    return this.subjectFecId;
+                };
+            }
+            catch(e){return null;};
+        };
+        this.highlightedJSON = function() {
+            var jsonString = ko.toJSON(this, function (key, value) { return (key == 'advertisementSubjectOptions') ? undefined : value; }, 4);
+            return Prism.highlight(jsonString, Prism.languages.javascript);
         };
     }
 
@@ -78,14 +91,18 @@ function($, JSON, ko, _, typeaheads) {
         $('input[name=station_callsign]').typeahead({
             source: typeaheads.callsigns
         });
-
         $('input[name=committee_name]').typeahead({
             minLength: 2,
             source: function(query, callback) {
-                callback(fec_names);
+                callback(committee_names);
             }
         });
-
+        $('input[name=subject_name]').typeahead({
+            minLength: 2,
+            source: function(query, callback) {
+                callback(candidate_names);
+            }
+        });
         $('input[name=office_sought]').typeahead({
             source: ["U.S. Senate", "U.S. House of Representatives", "President of the United States", "Governor of "]
         });
@@ -159,8 +176,15 @@ function($, JSON, ko, _, typeaheads) {
         appFormView.committeeTreasurer(exampleData.committeeTreasurer);
     });
 
-    fec_names = _.keys(typeaheads.fec);
+    $(document).on('resize', 'code', function(event) {
+        event.preventDefault();
+        // viewModel.items.remove(ko.dataFor(this));
+        console.log('resize');
+        // Act on the event
+    });
 
+    committee_names = _.keys(typeaheads.committees);
+    candidate_names = _.keys(typeaheads.candidates);
 
     $(document).ready(function($) {
         // Display form
