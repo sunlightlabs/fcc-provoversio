@@ -77,9 +77,10 @@ function($, JSON, ko, _, Prism, typeaheads) {
             }
             catch(e){return null;};
         };
-        this.highlightedJSON = function() {
-            var jsonString = ko.toJSON(this, function (key, value) { return (key == 'advertisementSubjectOptions') ? undefined : value; }, 4);
-            return Prism.highlight(jsonString, Prism.languages.javascript);
+        this.anyAdvertiserInfo = function() {
+            var hasAdvertiserName = !(this.advertiserName() == undefined || this.advertiserName() == '');
+            var hasContactName = !(this.advertiserContactName() == undefined || this.advertiserContactName() == '');
+            return (hasAdvertiserName || hasContactName);
         };
     }
 
@@ -174,13 +175,6 @@ function($, JSON, ko, _, Prism, typeaheads) {
         appFormView.subjectOfficeSought(exampleData.subjectOfficeSought);
         appFormView.committeeName(exampleData.committeeName);
         appFormView.committeeTreasurer(exampleData.committeeTreasurer);
-    });
-
-    $(document).on('resize', 'code', function(event) {
-        event.preventDefault();
-        // viewModel.items.remove(ko.dataFor(this));
-        console.log('resize');
-        // Act on the event
     });
 
     committee_names = _.keys(typeaheads.committees);

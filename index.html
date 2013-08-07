@@ -38,42 +38,6 @@
             };
         </script>
 
-        <script type="text/xml" id="xmlTemplate">
-            <?xml version="1.0" encoding="UTF-8"?>
-            <payload>
-                <station>
-                    <callsign data-bind="text: stationCallsign"></callsign>
-                </station>
-                <purchase>
-                    <isApproved data-bind="text: purchaseApproved"></isApproved>
-                </purchase>
-                <contract>
-                    <amount data-bind="text: contractAmount"></amount>
-                </contract>
-                <advertiser>
-                    <name data-bind="text: advertiserName"></name>
-                    <contact>
-                        <name data-bind="text: advertiserContactName"></name>
-                        <address data-bind="text: advertiserContactAddress"><![CDATA[]]></address>
-                        <phone data-bind="text: advertiserContactPhone"></phone>
-                    </contact>
-                </advertiser>
-                <advertisement>
-                    <subject data-bind="text: advertisementSubject"></subject>
-                    <isByCandidate data-bind="text: isByCandidate"></isByCandidate>
-                </advertisement>
-                <subject>
-                    <fecId data-bind="text: subjectFecId"></fecId>
-                    <name data-bind="text: subjectName"></name>
-                    <officeSought data-bind="text: subjectOfficeSought"></officeSought>
-                </subject>
-                <committee>
-                    <name data-bind="text: committeeName"></name>
-                    <treasurer data-bind="text: committeeTreasurer"></treasurer>
-                </committee>
-            </payload>
-        </script>
-
     </head>
     <body>
         <div class="sf-header">
@@ -158,14 +122,45 @@
 
                     </div>
                 </div>
+                <h4>This is a view of the data</h4>
                 <div class="row">
-                    <div class="span3">
-                        <h4>This is a view of the data</h4>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Modi nemo perferendis iure iusto non assumenda repudiandae. Rerum, distinctio, officiis nulla voluptates qui ullam nobis cum sed excepturi laboriosam. Fuga, dicta?</p>
+                    <div class="span6">
+                        <pre class="pre-scrollable"><code class="language-markup">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;payload&gt;
+    &lt;station&gt;
+        &lt;callsign&gt;<span data-bind="text: stationCallsign"></span>&lt;/callsign&gt;
+    &lt;/station&gt;
+    &lt;purchase&gt;
+        &lt;isApproved&gt;<span data-bind="text: purchaseApproved"></span>&lt;/isApproved&gt;
+    &lt;/purchase&gt;
+    &lt;contract&gt;
+        &lt;amount&gt;<span data-bind="text: contractAmount"></span>&lt;/amount&gt;
+    &lt;/contract&gt;
+    &lt;advertiser&gt;
+        &lt;name&gt;<span data-bind="text: advertiserName"></span>&lt;/name&gt;
+        &lt;contact&gt;
+            &lt;name&gt;<span data-bind="text: advertiserContactName"></span>&lt;/name&gt;
+            &lt;address&gt;&lt;![CDATA[<span data-bind="text: advertiserContactAddress"></span>]]&gt;&lt;/address&gt;
+            &lt;phone&gt;<span data-bind="text: advertiserContactPhone"></span>&lt;/phone&gt;
+        &lt;/contact&gt;
+    &lt;/advertiser&gt;
+    &lt;advertisement&gt;
+        &lt;subject&gt;<span data-bind="text: advertisementSubject"></span>&lt;/subject&gt;
+        &lt;isByCandidate&gt;<span data-bind="text: isByCandidate"></span>&lt;/isByCandidate&gt;
+    &lt;/advertisement&gt;
+    &lt;subject&gt;
+        &lt;name&gt;<span data-bind="text: subjectName"></span>&lt;/name&gt;
+        &lt;fecId&gt;<span data-bind="text: subjectFecId"></span>&lt;/fecId&gt;
+        &lt;officeSought&gt;<span data-bind="text: subjectOfficeSought"></span>&lt;/officeSought&gt;
+    &lt;/subject&gt;
+    &lt;committee&gt;
+        &lt;name&gt;<span data-bind="text: committeeName"></span>&lt;/name&gt;
+        &lt;treasurer&gt;<span data-bind="text: committeeTreasurer"></span>&lt;/treasurer&gt;
+    &lt;/committee&gt;
+&lt;/payload&gt;</code></pre>
                     </div>
-                    <div class="span9">
-                        <!-- <div id="app-data" data-bind="template: 'xmlTemplate'"></div> -->
-                        <pre class="prettyprint" ><code class="language-javascript" data-bind="html: highlightedJSON()"></code></pre>
+                    <div class="span6">
+                        <pre class="pre-scrollable"><code class="language-javascript" data-bind="text: ko.toJSON($root, function (key, value) { return (key == 'advertisementSubjectOptions') ? undefined : value; }, 4)"></code></pre>
                     </div>
                 </div>
             </div>
