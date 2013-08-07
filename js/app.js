@@ -1,11 +1,11 @@
 require.config({ baseUrl: 'js/lib',
     paths: { templates:'../tpl', data: '../data', jquery: 'jquery-1.10.2.min', sfapp: '../../sfapp' },
-    shim: { "underscore-min": { exports: '_' }, "prism": { exports: 'Prism' } }
+    shim: { "underscore-min": { exports: '_' } }
 });
 
-require(['jquery', 'json2', 'knockout-2.3.0', 'underscore-min', 'prism', 'data/typeaheads',
+require(['jquery', 'json2', 'knockout-2.3.0', 'underscore-min', 'data/typeaheads',
         'modernizr.min', 'sfapp/js/bootstrap.min', 'sfapp/js/sfapp'],
-function($, JSON, ko, _, Prism, typeaheads) {
+function($, JSON, ko, _, typeaheads) {
     var committee_names, candidate_names, data_uri, subject_selector, candidate_check_selector;
 
     var exampleData = {

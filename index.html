@@ -5,7 +5,6 @@
         <title>An example FCC Form</title>
         <link rel="stylesheet" href="sfapp/css/bootstrap.min.css">
         <link rel="stylesheet" href="sfapp/css/sfapp.css">
-        <link rel="stylesheet" href="css/prism.css">
         <style>
             form fieldset { margin-bottom: 2em; }
             .help-inline, .help-block { font-style: italic; }
@@ -14,6 +13,9 @@
             }
             .muted, input.muted {
                 color: #999;
+            }
+            .terminal {
+                color: #468847;
             }
         </style>
 
@@ -53,7 +55,7 @@
                 <div class="row">
                     <div id="app-nav" class="span3">
                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui, soluta, necessitatibus doloribus possimus obcaecati veritatis.</p>
-                        <button id="load_eg" class="btn btn-primary" type="button">Show Example Data</button>
+                        <button id="load_eg" class="btn btn-primary" type="button">Load Example Data</button>
                     </div>
                     <div id="app-form" class="span9">
                         <form id="fcc_form" method="post" action="." autocomplete="off" data-bind="submit: submitForm">
@@ -125,7 +127,7 @@
                 <h4>This is a view of the data</h4>
                 <div class="row">
                     <div class="span6">
-                        <pre class="pre-scrollable"><code class="language-markup">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+                        <pre class="pre-scrollable"><code class="language-markup terminal">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
 &lt;payload&gt;
     &lt;station&gt;
         &lt;callsign&gt;<span data-bind="text: stationCallsign"></span>&lt;/callsign&gt;
@@ -160,7 +162,7 @@
 &lt;/payload&gt;</code></pre>
                     </div>
                     <div class="span6">
-                        <pre class="pre-scrollable"><code class="language-javascript" data-bind="text: ko.toJSON($root, function (key, value) { return (key == 'advertisementSubjectOptions') ? undefined : value; }, 4)"></code></pre>
+                        <pre class="pre-scrollable"><code class="language-javascript terminal" data-bind="text: ko.toJSON($root, function (key, value) { return (key == 'advertisementSubjectOptions') ? undefined : value; }, 4)"></code></pre>
                     </div>
                 </div>
             </div>
