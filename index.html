@@ -170,15 +170,15 @@
                 </div>
                 <h4>A form can easily process data and present it in a structured format.</h4>
                 <ul class="nav nav-tabs">
-                    <li class="active"><a href="#xml" data-toggle="tab">XML</a></li>
-                    <li><a href="#json" data-toggle="tab">JSON</a></li>
+                    <li class="active"><a href="#json" data-toggle="tab">JSON</a></li>
+                    <li><a href="#xml" data-toggle="tab">XML</a></li>
                 </ul>
                 <div class="tab-content">
-                    <div id="xml" class="tab-pane active">
-                        <pre class="pre-scrollable"><code class="language-markup terminal" data-bind="template: { name: 'xml-template' }"></code></pre>
-                    </div>
-                    <div id="json" class="tab-pane">
+                    <div id="json" class="tab-pane active">
                         <pre class="pre-scrollable"><code class="language-javascript terminal" data-bind="text: ko.toJSON($root, function (key, value) { return (key == 'advertisementSubjectOptions') ? undefined : value; }, 4)"></code></pre>
+                    </div>
+                    <div id="xml" class="tab-pane">
+                        <pre class="pre-scrollable"><code class="language-markup terminal" data-bind="template: { name: 'xml-template' }"></code></pre>
                     </div>
                 </div>
             </div>
