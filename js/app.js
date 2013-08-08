@@ -1,6 +1,6 @@
 require.config({ baseUrl: 'js/lib',
     paths: { templates:'../tpl', data: '../data', jquery: 'jquery-1.10.2.min', sfapp: '../../sfapp' },
-    shim: { "underscore-min": { exports: '_' } }
+    shim: { "underscore-min": { exports: '_' },"json2": {exports:"JSON"}, "knockout-2.3.0": { deps: ["json2"], exports: "ko"} }
 });
 
 require(['jquery', 'json2', 'knockout-2.3.0', 'underscore-min', 'data/typeaheads',
@@ -25,7 +25,6 @@ function($, JSON, ko, _, typeaheads) {
     };
 
     function FormViewModel() {
-        this.exampleData =
         this.stationCallsign = ko.observable();
         this.purchaseApproved = ko.observable(true);
         this.contractAmount = ko.observable();
@@ -55,11 +54,30 @@ function($, JSON, ko, _, typeaheads) {
             return ko.toJSON(exampleData, null, 4);
         };
         this.resetForm = function() {
-            this.advertiserContactAddress('');
-            return true;
+            appFormView.stationCallsign('');
+            appFormView.purchaseApproved(true);
+            appFormView.contractAmount('');
+            appFormView.advertiserName('');
+            appFormView.advertiserContactName('');
+            appFormView.advertiserContactAddress('');
+            appFormView.advertiserContactPhone('');
+            appFormView.advertisementSubject('');
+            appFormView.isByCandidate('');
+            appFormView.subjectFecId('');
+            appFormView.subjectName('');
+            appFormView.subjectOfficeSought('');
+            appFormView.committeeName('');
+            appFormView.committeeTreasurer('');
+            appFormView.committeeFecId('');
+
+            if (!Modernizr.input.placeholder) {
+                var formpl = '#fcc_form [placeholder]';
+                $(formpl).each(function() {
+                    $(this).val( $(this).attr('placeholder') );
+                });
+            }
         };
         this.submitForm = function(formElement) {
-            // console.log("Submit form");
             $('#form-submit-modal').modal();
         };
         this.matchCommitteeToFecId = function() {
@@ -121,36 +139,24 @@ function($, JSON, ko, _, typeaheads) {
         if (!Modernizr.input.placeholder) {
             var formpl = '#fcc_form [placeholder]';
             $(formpl).each(function(event) {
-                if ($(this).val() === '') // if field is empty
+                if ($(this).val() == '') // if field is empty
                 {
-                    $(this).addClass('muted');
                     $(this).val( $(this).attr('placeholder') );
-                }
-                else {
-                    $(this).removeClass('muted');
                 }
             });
             $(document).on('focus', formpl, function(event) {
-                event.preventDefault();
                 if ($(this).val() == $(this).attr('placeholder'))
                 {
                     $(this).val('');
-                    $(this).removeClass('muted');
                 }
             });
             $(document).on('blur', formpl, function(event) {
-                event.preventDefault();
-                if ($(this).val() === '' || $(this).val() == $(this).attr('placeholder'))
+                if ($(this).val() == '' || $(this).val() == $(this).attr('placeholder'))
                 {
-                    $(this).addClass('muted');
                     $(this).val($(this).attr('placeholder'));
-                }
-                else {
-                    $(this).removeClass('muted');
                 }
             });
             $(document).on('submit', 'form', function(event) {
-                event.preventDefault();
                 $(this).find('[placeholder]').each(function()
                 {
                     if ($(this).val() == $(this).attr('placeholder'))

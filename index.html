@@ -14,15 +14,16 @@
             .muted, input.muted {
                 color: #999;
             }
-            .terminal {
-                color: #468847;
-            }
             .tab-pane {
                 padding: 8px;
             }
             .tab-content {
                 border: 1px solid #ddd;
                 border-top: none;
+            }
+            pre code {
+                color: #d14;
+                white-space: pre;
             }
         </style>
 
@@ -103,43 +104,46 @@
                                     <fieldset>
                                         <legend>Purchase information</legend>
                                         <label class="control-label" for="station_callsign">Station Callsign</label>
-                                        <input name="station_callsign" class="input-small" type="text" placeholder="XXXX" required data-bind="value: stationCallsign">
+                                        <input name="station_callsign" id="station_callsign" class="input-small" type="text" placeholder="XXXX" required data-bind="value: stationCallsign">
                                         <label class="checkbox" for="purchase_approved">
-                                            <input name="purchase_approved" type="checkbox" value="purchase_approved"  data-bind="checked: purchaseApproved"> Was the request to purchase broadcast time accepted?
+                                            <input name="purchase_approved" id="purchase_approved" type="checkbox" value="purchase_approved"  data-bind="checked: purchaseApproved"> Was the request to purchase broadcast time accepted?
                                         </label>
                                         <label class="control-label" for="contract_amount">Total Amount</label>
                                         <div class="input-prepend">
                                             <span class="add-on">$</span>
-                                            <input name="contract_amount" class="input-small" type="number" placeholder="0000.00" required data-bind="value: contractAmount">
+                                            <input name="contract_amount" id="contract_amount" class="input-small" type="number" placeholder="0000.00" required data-bind="value: contractAmount">
                                         </div>
                                         <span class="help-block">The total amount charged for the broadcast time.</span>
                                     </fieldset>
                                     <fieldset>
                                         <legend>Ad purchaser</legend>
                                         <label class="control-label" for="advertiser_name">Ad purchaser</label>
-                                        <input name="advertiser_name" class="span4" type="text" placeholder="Name of person/organization" required data-bind="value: advertiserName">
+                                        <input name="advertiser_name" id="advertiser_name" class="span4" type="text" placeholder="Name of person/organization" required data-bind="value: advertiserName">
                                         <label class="control-label" for="advertiser_contact_name">Contact name</label>
-                                        <input name="advertiser_contact_name" class="span4" type="text" placeholder="Name of contact person for ad purchaser" required data-bind="value: advertiserContactName">
-                                        <label class="control-label" for="advertiser_contact_address">Contact address</label>
-                                        <textarea name="advertiser_contact_address" class="span4" rows="3" placeholder="227 Madeupp Boulevard, Suite 2121, Washington, D.C. 20009" required data-bind="text: advertiserContactAddress"></textarea>
+                                        <input name="advertiser_contact_name" id="advertiser_contact_name" class="span4" type="text" placeholder="Name of contact person for ad purchaser" required data-bind="value: advertiserContactName">
+                                        <label class="control-label">Contact address</label>
+                                        <textarea id="advertiser_contact_address" name="advertiser_contact_address" class="span4" rows="3" placeholder="227 Madeupp Boulevard, Suite 2121, Washington, D.C. 20009" required data-bind="value: advertiserContactAddress"></textarea>
                                         <label class="control-label" for="advertiser_contact_phone">Contact phone number</label>
-                                        <input name="advertiser_contact_phone" class="span4" type="tel" placeholder="XXX-XXX-XXXX ext. 2121" required data-bind="value: advertiserContactPhone">
+                                        <input name="advertiser_contact_phone" id="advertiser_contact_phone" class="span4" type="tel" placeholder="XXX-XXX-XXXX ext. 2121" required data-bind="value: advertiserContactPhone">
                                     </fieldset>
                                 </div>
                                 <div class="span4 offset1">
                                     <fieldset>
                                         <legend>Subject of ad:<br>Candidate, Issue, or&nbsp;Election</legend>
                                         <label class="control-label" for="advertisement_subject">Advertisement subject</label>
-                                        <select name="advertisement_subject" id="advertisement_subject" required data-bind="options: advertisementSubjectOptions, value: advertisementSubject, optionsCaption: 'Choose...'"></select>
+                                        <select name="advertisement_subject" id="advertisement_subject"
+                                        data-bind="options: advertisementSubjectOptions,
+                                                    value: advertisementSubject, optionsCaption: 'Choose...',
+                                                    attr: {required: advertisementSubjectOptions }"></select>
                                         <label class="control-label" for="subject_name">Subject name or description</label>
-                                        <input name="subject_name" class="span4" type="text" placeholder="Enter candidate, issue, or election name" required data-bind="value: subjectName">
+                                        <input name="subject_name" id="subject_name" class="span4" type="text" placeholder="Enter candidate, issue, or election name" required data-bind="value: subjectName">
                                         <input type="hidden" name="subject_fec_id" data-bind="value: matchSubjectToFecId()">
                                         <span class="help-block">The name of the candidate and office, the election, or the issue to which the communication refers.</span>
                                         <div id="form_candidate_extras" data-bind='visible: subjectIsCandidate()'>
                                             <label class="control-label" for="office_sought">Office sought</label>
-                                            <input name="office_sought" class="span4" type="text" placeholder="Enter office sought" data-bind="value: subjectOfficeSought, attr: { required: subjectIsCandidate() }">
+                                            <input name="office_sought" id="office_sought" class="span4" type="text" placeholder="Enter office sought" data-bind="value: subjectOfficeSought, attr: { required: subjectIsCandidate() }">
                                             <label class="checkbox" for="by_candidate">
-                                                <input name="by_candidate" type="checkbox" value="by_candidate" data-bind="checked: isByCandidate">
+                                                <input name="by_candidate" id="by_candidate" type="checkbox" value="by_candidate" data-bind="checked: isByCandidate">
                                                 By, or on behalf of, a candidate?
                                             </label>
                                         </div>
@@ -148,7 +152,7 @@
                                             <input id="committee_name" name="committee_name" class="span4" type="text" placeholder="Enter the candidate's committee name" data-bind="value: committeeName, attr: { required: isByCandidate() }">
                                             <input type="hidden" name="committee_fec_id" data-bind="value: matchCommitteeToFecId()">
                                             <label class="control-label" for="committee_treasurer">Committee Treasurer</label>
-                                            <input name="committee_treasurer" class="span4" type="text" placeholder="Enter name of the committee's treasurer" data-bind="value: committeeTreasurer, attr: { required: isByCandidate() }">
+                                            <input name="committee_treasurer" id="committee_treasurer" class="span4" type="text" placeholder="Enter name of the committee's treasurer" data-bind="value: committeeTreasurer, attr: { required: isByCandidate() }">
                                         </div>
                                     </fieldset>
                                 </div>
@@ -170,9 +174,9 @@
                 </ul>
                 <div class="tab-content">
                     <div id="xml" class="tab-pane active">
-                        <pre class="pre-scrollable"><code class="language-markup terminal" data-bind="template: 'xml-template'"></code></pre>
+                        <pre class="pre-scrollable"><code class="language-markup terminal" data-bind="template: { name: 'xml-template' }"></code></pre>
                     </div>
-                    <div id="json"class="tab-pane">
+                    <div id="json" class="tab-pane">
                         <pre class="pre-scrollable"><code class="language-javascript terminal" data-bind="text: ko.toJSON($root, function (key, value) { return (key == 'advertisementSubjectOptions') ? undefined : value; }, 4)"></code></pre>
                     </div>
                 </div>
