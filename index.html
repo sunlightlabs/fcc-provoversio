@@ -25,6 +25,9 @@
                 color: #d14;
                 white-space: pre;
             }
+            .modal-body pre {
+                margin-bottom: 0;
+            }
         </style>
 
         <script type="text/javascript" src="//use.typekit.com/tab6neo.js"></script>
@@ -114,23 +117,23 @@
                                             <span class="add-on">$</span>
                                             <input name="contract_amount" id="contract_amount" class="input-small" type="number" placeholder="0000.00" required data-bind="value: contractAmount">
                                         </div>
-                                        <span class="help-block">The total amount charged for the broadcast time.</span>
+                                        <!-- <span class="help-block">The total amount charged for the broadcast time.</span> -->
                                     </fieldset>
                                     <fieldset>
                                         <legend>Ad purchaser</legend>
                                         <label class="control-label" for="advertiser_name">Ad purchaser</label>
-                                        <input name="advertiser_name" id="advertiser_name" class="span4" type="text" placeholder="Name of person/organization" required data-bind="value: advertiserName">
+                                        <input autocomplete="on" name="advertiser_name" id="advertiser_name" class="span4" type="text" placeholder="Name of person/organization" required data-bind="value: advertiserName">
                                         <label class="control-label" for="advertiser_contact_name">Contact name</label>
-                                        <input name="advertiser_contact_name" id="advertiser_contact_name" class="span4" type="text" placeholder="Name of contact person for ad purchaser" required data-bind="value: advertiserContactName">
+                                        <input autocomplete="on" name="advertiser_contact_name" id="advertiser_contact_name" class="span4" type="text" placeholder="Name of contact person for ad purchaser" required data-bind="value: advertiserContactName">
                                         <label class="control-label">Contact address</label>
-                                        <textarea id="advertiser_contact_address" name="advertiser_contact_address" class="span4" rows="3" placeholder="227 Madeupp Boulevard, Suite 2121, Washington, D.C. 20009" required data-bind="value: advertiserContactAddress"></textarea>
+                                        <textarea autocomplete="on" id="advertiser_contact_address" name="advertiser_contact_address" class="span4" rows="4" placeholder="Address line 1, Address line 2, City, State Zipcode" required data-bind="value: advertiserContactAddress"></textarea>
                                         <label class="control-label" for="advertiser_contact_phone">Contact phone number</label>
-                                        <input name="advertiser_contact_phone" id="advertiser_contact_phone" class="span4" type="tel" placeholder="XXX-XXX-XXXX ext. 2121" required data-bind="value: advertiserContactPhone">
+                                        <input autocomplete="on" name="advertiser_contact_phone" id="advertiser_contact_phone" class="span4" type="tel" placeholder="XXX-XXX-XXXX ext. 2121" required data-bind="value: advertiserContactPhone">
                                     </fieldset>
                                 </div>
                                 <div class="span4 offset1">
                                     <fieldset>
-                                        <legend>Subject of ad:<br>Candidate, Issue, or&nbsp;Election</legend>
+                                        <legend title="Candidate, Issue, or&nbsp;Election">Subject of ad</legend>
                                         <label class="control-label" for="advertisement_subject">Advertisement subject</label>
                                         <select name="advertisement_subject" id="advertisement_subject"
                                         data-bind="options: advertisementSubjectOptions,
@@ -168,19 +171,6 @@
 
                     </div>
                 </div>
-                <h4>A form can easily process data and present it in a structured format.</h4>
-                <ul class="nav nav-tabs">
-                    <li class="active"><a href="#json" data-toggle="tab">JSON</a></li>
-                    <li><a href="#xml" data-toggle="tab">XML</a></li>
-                </ul>
-                <div class="tab-content">
-                    <div id="json" class="tab-pane active">
-                        <pre class="pre-scrollable"><code class="language-javascript terminal" data-bind="text: ko.toJSON($root, function (key, value) { return (key == 'advertisementSubjectOptions') ? undefined : value; }, 4)"></code></pre>
-                    </div>
-                    <div id="xml" class="tab-pane">
-                        <pre class="pre-scrollable"><code class="language-markup terminal" data-bind="template: { name: 'xml-template' }"></code></pre>
-                    </div>
-                </div>
             </div>
         </div>
 
@@ -210,9 +200,8 @@
                 <h3>Load Data</h3>
             </div>
             <div class="modal-body">
-                <p>An advertising system could generate and submit data in a machine readable format, such as <abbr title="JavaScript Object Notation">JSON</abbr> or <abbr title="eXtensible Markup Language">XML</abbr>.</p>
-                <pre class="pre-scrollable"><code class="language-javascript terminal" data-bind="text: exampleJSON()"></code></pre>
-
+                <p>If the FCC creates a standardized machine-readable format for submissions, compliance documents could be filed electronically!!</p>
+                <pre><code class="language-javascript terminal" data-bind="text: exampleJSON()"></code></pre>
             </div>
             <div class="modal-footer">
                 <button id="fill-approve" class="btn btn-primary">Fill form with data</button>
@@ -225,8 +214,8 @@
                 <h3>Form submit</h3>
             </div>
             <div class="modal-body">
-                <p>Something to drive home point abot ease and ad systems pumping out <abbr title="eXtensible Markup Language">XML</abbr>/<abbr title="JavaScript Object Notation">JSON</abbr></p>
-                <pre class="pre-scrollable"><code class="language-javascript terminal" data-bind="text: exampleJSON()"></code></pre>
+                <p>Something to drive home point about ease of generating <abbr title="eXtensible Markup Language">XML</abbr> or<abbr title="JavaScript Object Notation">JSON</abbr> from ad systems.</p>
+                <pre class="pre-scrollable"><code class="language-javascript terminal" data-bind="text: ko.toJSON($root, function (key, value) { return (key == 'advertisementSubjectOptions') ? undefined : value; }, 4)"></code></pre>
 
             </div>
             <div class="modal-footer">
