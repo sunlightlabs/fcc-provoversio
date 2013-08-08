@@ -8,20 +8,21 @@ require(['jquery', 'json2', 'knockout-2.3.0', 'underscore-min', 'data/typeaheads
 function($, JSON, ko, _, typeaheads) {
     var committee_names, candidate_names, data_uri, subject_selector, candidate_check_selector;
 
+// http://politicaladsleuth.com/political-files/2e5fd270-d28f-409a-9f68-b2d58e31c290/
     var exampleData = {
         "stationCallsign": "WRAL-TV",
         "purchaseApproved": true,
-        "contractAmount": 33000.00,
-        "advertiserName": "Something, Inc",
-        "advertiserContactName": "Johnny Rotten",
-        "advertiserContactAddress": "1212 N Street NW,\nSuite 1999\nWashington,DC 20009",
-        "advertiserContactPhone": "555-333-0000",
+        "contractAmount": 60035.00,
+        "advertiserName": "Greer Margolis & Mitchell",
+        "advertiserContactName": "Jester, Daniel",
+        "advertiserContactAddress": "1010 Wisconsin Avenue,\nSuite 800\nWashington,DC 20007",
+        "advertiserContactPhone": "000-555-1010",
         "advertisementSubject": "Candidate",
         "isByCandidate": true,
-        "subjectName": "KWARG",
-        "subjectOfficeSought": "Best Person",
-        "committeeName": "AMERICAN CROSSROADS", // "C00487363"
-        "committeeTreasurer": "Sally Sue"
+        "subjectName": "OBAMA, BARACK",
+        "subjectOfficeSought": "President of the United States",
+        "committeeName": "OBAMA FOR AMERICA",
+        "committeeTreasurer": "Nesbit, Martin"
     };
 
     function FormViewModel() {
