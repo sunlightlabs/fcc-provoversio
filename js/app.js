@@ -54,21 +54,21 @@ function($, JSON, ko, _, typeaheads) {
             return ko.toJSON(exampleData, null, 4);
         };
         this.resetForm = function() {
-            appFormView.stationCallsign('');
+            appFormView.stationCallsign(null);
             appFormView.purchaseApproved(true);
-            appFormView.contractAmount('');
-            appFormView.advertiserName('');
-            appFormView.advertiserContactName('');
-            appFormView.advertiserContactAddress('');
-            appFormView.advertiserContactPhone('');
-            appFormView.advertisementSubject('');
-            appFormView.isByCandidate('');
-            appFormView.subjectFecId('');
-            appFormView.subjectName('');
-            appFormView.subjectOfficeSought('');
-            appFormView.committeeName('');
-            appFormView.committeeTreasurer('');
-            appFormView.committeeFecId('');
+            appFormView.contractAmount(null);
+            appFormView.advertiserName(null);
+            appFormView.advertiserContactName(null);
+            appFormView.advertiserContactAddress(null);
+            appFormView.advertiserContactPhone(null);
+            appFormView.advertisementSubject(null);
+            appFormView.isByCandidate(null);
+            appFormView.subjectFecId(null);
+            appFormView.subjectName(null);
+            appFormView.subjectOfficeSought(null);
+            appFormView.committeeName(null);
+            appFormView.committeeTreasurer(null);
+            appFormView.committeeFecId(null);
 
             if (!Modernizr.input.placeholder) {
                 var formpl = '#fcc_form [placeholder]';
@@ -84,7 +84,7 @@ function($, JSON, ko, _, typeaheads) {
             try {
                 var fecId = typeaheads.committees[this.committeeName()];
                 if (fecId != null) {
-                    this.committeeFecId = fecId;
+                    this.committeeFecId(fecId);
                     return this.committeeFecId;
                 };
             }
@@ -94,7 +94,7 @@ function($, JSON, ko, _, typeaheads) {
             try {
                 var fecId = typeaheads.candidates[this.subjectName()];
                 if (fecId != null) {
-                    this.subjectFecId = fecId;
+                    this.subjectFecId(fecId);
                     return this.subjectFecId;
                 };
             }

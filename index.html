@@ -71,12 +71,13 @@
     &lt;/advertisement&gt;
     &lt;subject&gt;
         &lt;name&gt;<span data-bind="text: subjectName"></span>&lt;/name&gt;
-        &lt;fecId&gt;<span data-bind="text: subjectFecId"></span>&lt;/fecId&gt;
+        &lt;fecId&gt;<span data-bind="text: matchSubjectToFecId()"></span>&lt;/fecId&gt;
         &lt;officeSought&gt;<span data-bind="text: subjectOfficeSought"></span>&lt;/officeSought&gt;
     &lt;/subject&gt;
     &lt;committee&gt;
         &lt;name&gt;<span data-bind="text: committeeName"></span>&lt;/name&gt;
         &lt;treasurer&gt;<span data-bind="text: committeeTreasurer"></span>&lt;/treasurer&gt;
+        &lt;fecId&gt;<span data-bind="text: matchCommitteeToFecId()"></span>&lt;/fecId&gt;
     &lt;/committee&gt;
 &lt;/payload&gt;</script>
 
