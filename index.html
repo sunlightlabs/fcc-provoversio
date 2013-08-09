@@ -14,6 +14,12 @@
             .muted, input.muted {
                 color: #999;
             }
+            .btn-small, .btn-small:active {
+                padding: 2px 10px;
+            }
+            .inline .input-prepend .add-on {
+                vertical-align: 3px;
+            }
             .tab-pane {
                 padding: 8px;
             }
@@ -160,6 +166,41 @@
                                         </div>
                                     </fieldset>
                                 </div>
+                            </div>
+                            <div>
+                                <fieldset>
+                                    <legend>Add dates and times of communications purchased</legend>
+                                    <div id="purchases"data-bind='foreach: purchases'>
+                                        <div class="purchase-detail">
+                                            <ul class="inline">
+                                                <li>
+                                                    <label>
+                                                        From:
+                                                        <input name="start-date[]" data-bind="value: startDate" type="date" class="input-mini" placeholder="1/1/2012">
+                                                    </label>
+                                                </li>
+                                                <li>
+                                                    <label>
+                                                        To:
+                                                        <input name="end-date[]" data-bind="value: endDate" type="date" class="input-mini" placeholder="1/1/2012">
+                                                    </label>
+                                                </li>
+                                                <li>
+                                                    <label>
+                                                        Timeslot:
+                                                        <input name="begin-time[]" data-bind="value: beginTime" type="time" class="input-mini" placeholder="4:00pm">
+                                                        <input name="end-time[]" data-bind="value: endTime" type="time" class="input-mini" placeholder="5:00pm">
+                                                    </label>
+                                                </li>
+                                                <li class="input-prepend">
+                                                    <span class="add-on">$</span>
+                                                    <input name="ad-rate[]" data-bind="value: adRate" type="date" class="input-mini" placeholder="00.00">
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-small" type="button" data-bind="click: addPurchase">Add Row</button>
+                                </fieldset>
                             </div>
                             <div class="row">
                                 <div class="span3">

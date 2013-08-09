@@ -22,39 +22,112 @@ function($, JSON, ko, _, typeaheads) {
         "subjectName": "OBAMA, BARACK",
         "subjectOfficeSought": "President of the United States",
         "committeeName": "OBAMA FOR AMERICA",
-        "committeeTreasurer": "Nesbit, Martin"
+        "committeeTreasurer": "Nesbit, Martin",
+        "purchases": [
+            {
+                "startDate": "10/9/12",
+                "endDate": "10/12/12",
+                "beginTime": "1:00pm",
+                "endTime": "1:30pm",
+                "adRate": 825.00
+            },
+            {
+                "startDate": "10/9/12",
+                "endDate": "10/12/12",
+                "beginTime": "10:00am,",
+                "endTime": "11:300am",
+                "adRate": 500.00
+            },
+            {
+                "startDate": "10/9/12",
+                "endDate": "10/12/12",
+                "beginTime": "11:35pm,",
+                "endTime": "12:37am",
+                "adRate": 230.00
+            },
+            {
+                "startDate": "10/9/12",
+                "endDate": "10/12/12",
+                "beginTime": "11:00am,",
+                "endTime": "12:00pm",
+                "adRate": 5625.00
+            },
+            {
+                "startDate": "10/9/12",
+                "endDate": "10/12/12",
+                "beginTime": "12:37am,",
+                "endTime": "1:37am",
+                "adRate": 105.00
+            },
+            {
+                "startDate": "10/9/12",
+                "endDate": "10/12/12",
+                "beginTime": "12:00pm,",
+                "endTime": "1:00pm",
+                "adRate": 625.00
+            },
+            {
+                "startDate": "10/9/12",
+                "endDate": "10/12/12",
+                "beginTime": "1:30pm",
+                "endTime": "4:00pm",
+                "adRate": 405.00
+            },
+            {
+                "startDate": "10/9/12",
+                "endDate": "10/12/12",
+                "beginTime": "4:00pm",
+                "endTime": "5:00pm",
+                "adRate": 2520.00
+            }
+        ]
     };
 
+    var PurchaseModel = function()
+    {
+        var self = this;
+        self.startDate = ko.observable(null);
+        self.endDate = ko.observable(null);
+        self.beginTime = ko.observable(null);
+        self.endTime = ko.observable(null);
+        self.adRate = ko.observable(null);
+    }
+
     function FormViewModel() {
-        this.stationCallsign = ko.observable();
-        this.purchaseApproved = ko.observable(true);
-        this.contractAmount = ko.observable();
-        this.advertiserName = ko.observable();
-        this.advertiserContactName = ko.observable();
-        this.advertiserContactAddress = ko.observable();
-        this.advertiserContactPhone = ko.observable();
-        this.advertisementSubjectOptions = ko.observableArray(['Candidate', 'Issue', 'Election']);
-        this.advertisementSubject = ko.observable();
-        this.subjectIsCandidate = function() {
-            return (this.advertisementSubject() == 'Candidate');
+        var self = this;
+        self.stationCallsign = ko.observable();
+        self.purchaseApproved = ko.observable(true);
+        self.contractAmount = ko.observable();
+        self.advertiserName = ko.observable();
+        self.advertiserContactName = ko.observable();
+        self.advertiserContactAddress = ko.observable();
+        self.advertiserContactPhone = ko.observable();
+        self.advertisementSubjectOptions = ko.observableArray(['Candidate', 'Issue', 'Election']);
+        self.advertisementSubject = ko.observable();
+        self.subjectIsCandidate = function() {
+            return (self.advertisementSubject() == 'Candidate');
         };
-        this.isByCandidate = ko.observable();
-        this.subjectFecId = ko.observable();
-        this.subjectName = ko.observable();
-        this.subjectOfficeSought = ko.observable();
-        this.committeeName = ko.observable();
-        this.committeeFecId = ko.observable();
-        this.committeeTreasurer = ko.observable();
-        this.trimForExport = function (key, value) {
+        self.isByCandidate = ko.observable();
+        self.subjectFecId = ko.observable();
+        self.subjectName = ko.observable();
+        self.subjectOfficeSought = ko.observable();
+        self.committeeName = ko.observable();
+        self.committeeFecId = ko.observable();
+        self.committeeTreasurer = ko.observable();
+        self.purchases = ko.observableArray([new PurchaseModel()]);
+        self.addPurchase = function () {
+            self.purchases.push(new PurchaseModel());
+        }
+        self.trimForExport = function (key, value) {
             if (key == "advertisementSubjectOptions") {
                 return undefined;
             }
             return value;
         }
-        this.exampleJSON = function() {
+        self.exampleJSON = function() {
             return ko.toJSON(exampleData, null, 4);
         };
-        this.resetForm = function() {
+        self.resetForm = function() {
             appFormView.stationCallsign(null);
             appFormView.purchaseApproved(true);
             appFormView.contractAmount(null);
@@ -74,36 +147,36 @@ function($, JSON, ko, _, typeaheads) {
             if (!Modernizr.input.placeholder) {
                 var formpl = '#fcc_form [placeholder]';
                 $(formpl).each(function() {
-                    $(this).val( $(this).attr('placeholder') );
+                    $(self).val( $(self).attr('placeholder') );
                 });
             }
         };
-        this.submitForm = function(formElement) {
+        self.submitForm = function(formElement) {
             $('#form-submit-modal').modal();
         };
-        this.matchCommitteeToFecId = function() {
+        self.matchCommitteeToFecId = function() {
             try {
-                var fecId = typeaheads.committees[this.committeeName()];
+                var fecId = typeaheads.committees[self.committeeName()];
                 if (fecId != null) {
-                    this.committeeFecId(fecId);
-                    return this.committeeFecId;
+                    self.committeeFecId(fecId);
+                    return self.committeeFecId;
                 };
             }
             catch(e){return null;};
         };
-        this.matchSubjectToFecId = function() {
+        self.matchSubjectToFecId = function() {
             try {
-                var fecId = typeaheads.candidates[this.subjectName()];
+                var fecId = typeaheads.candidates[self.subjectName()];
                 if (fecId != null) {
-                    this.subjectFecId(fecId);
-                    return this.subjectFecId;
+                    self.subjectFecId(fecId);
+                    return self.subjectFecId;
                 };
             }
             catch(e){return null;};
         };
-        this.anyAdvertiserInfo = function() {
-            var hasAdvertiserName = !(this.advertiserName() == undefined || this.advertiserName() == '');
-            var hasContactName = !(this.advertiserContactName() == undefined || this.advertiserContactName() == '');
+        self.anyAdvertiserInfo = function() {
+            var hasAdvertiserName = !(self.advertiserName() == undefined || self.advertiserName() == '');
+            var hasContactName = !(self.advertiserContactName() == undefined || self.advertiserContactName() == '');
             return (hasAdvertiserName || hasContactName);
         };
     }
@@ -187,6 +260,7 @@ function($, JSON, ko, _, typeaheads) {
         appFormView.subjectOfficeSought(exampleData.subjectOfficeSought);
         appFormView.committeeName(exampleData.committeeName);
         appFormView.committeeTreasurer(exampleData.committeeTreasurer);
+        appFormView.purchases(exampleData.purchases);
         $('#example-modal').modal('hide')
     });
 
@@ -194,7 +268,6 @@ function($, JSON, ko, _, typeaheads) {
     candidate_names = _.keys(typeaheads.candidates);
 
     $(document).ready(function($) {
-        // Display form
         attach_typeaheads();
         processPlaceholders();
     });
