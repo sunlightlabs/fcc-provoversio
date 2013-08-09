@@ -91,7 +91,7 @@
         &lt;officeSought&gt;<span data-bind="text: subjectOfficeSought"></span>&lt;/officeSought&gt;
     &lt;/subject&gt;
     &lt;committee&gt;
-        &lt;name&gt;<span data-bind="text: committeeName"></span>&lt;/name&gt;
+        &lt;name&gt;<span data-bind="text: commissionedBy"></span>&lt;/name&gt;
         &lt;treasurer&gt;<span data-bind="text: committeeTreasurer"></span>&lt;/treasurer&gt;
         &lt;fecId&gt;<span data-bind="text: matchCommitteeToFecId()"></span>&lt;/fecId&gt;
     &lt;/committee&gt;
@@ -169,12 +169,12 @@
                                     </fieldset>
                                     <fieldset id="form_committee_details">
                                         <legend title="The committee or organization commissioning the ad">Ad Commissioner details</legend>
-                                        <label class="control-label" for="committee_name">Commissioned by</label>
-                                        <input id="committee_name" name="committee_name" class="span4" type="text" placeholder="Committee or organization name" data-bind="value: committeeName, attr: { required: isByCandidate() }">
+                                        <label class="control-label" for="commissioned_by">Commissioned by</label>
+                                        <input id="commissioned_by" name="commissioned_by" class="span4" type="text" required placeholder="Committee or organization name" data-bind="value: commissionedBy">
                                         <input type="hidden" name="committee_fec_id" data-bind="value: matchCommitteeToFecId()">
                                         <label class="control-label" for="committee_treasurer"><span data-bind="text: subjectIsCandidate() ? 'Treasurer' : 'Principals'"></span></label>
                                         <input name="committee_treasurer" id="committee_treasurer" class="span4" type="text" placeholder="Enter name of the committee's treasurer" data-bind="visible: subjectIsCandidate(), value: committeeTreasurer, attr: { required: isByCandidate() }">
-                                        <textarea name="committee_leadership" id="committee_leadership" class="span4" rows="10" data-bind="visible: !subjectIsCandidate(), value: committeeLeadership, attr: { required: !isByCandidate() }" placeholder="A list of the chief executive officers or members of the executive committee or of the board of directors."></textarea>
+                                        <textarea name="principals" id="principals" class="span4" rows="10" data-bind="visible: !subjectIsCandidate(), value: principals, attr: { required: !isByCandidate() }" placeholder="A list of the chief executive officers or members of the executive committee or of the board of directors. One per line."></textarea>
                                     </fieldset>
                                 </div>
                             </div>
@@ -266,6 +266,6 @@
                 <button data-dismiss="modal" class="btn btn-primary">Okay</button>
             </div>
         </div>
-            <script data-main="/js/app"  src="/js/require.js" type="text/javascript" charset="utf-8"></script>
+            <script data-main="js/app"  src="js/require.js" type="text/javascript" charset="utf-8"></script>
     </body>
 </html>

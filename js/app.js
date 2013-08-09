@@ -1,6 +1,7 @@
 require.config({ baseUrl: 'js/lib',
     paths: { templates:'../tpl', data: '../data', jquery: 'jquery-1.10.2.min', sfapp: '../../sfapp' },
-    shim: { "underscore-min": { exports: '_' },"json2": {exports:"JSON"}, "knockout-2.3.0": { deps: ["json2"], exports: "ko"} }
+    shim: { "underscore-min": { exports: '_' }, "json2": {exports:"JSON"}, "knockout-2.3.0": { deps: ["json2"], exports: "ko"},
+            "sfapp/js/bootstrap.min": ["jquery"], "sfapp/js/sfapp": ["jquery",  "sfapp/js/bootstrap.min"] }
 });
 
 require(['jquery', 'json2', 'knockout-2.3.0', 'underscore-min', 'data/typeaheads',
@@ -22,7 +23,7 @@ function($, JSON, ko, _, typeaheads) {
         "isByCandidate": true,
         "subjectName": "PALLONE, FRANK JR",
         "subjectOfficeSought": "U.S. Senate",
-        "committeeName": "PALLONE FOR SENATE",
+        "commissionedBy": "PALLONE FOR SENATE",
         "committeeTreasurer": "Nichols, Peter D.",
         "purchases": [
             {
@@ -81,10 +82,18 @@ function($, JSON, ko, _, typeaheads) {
         self.subjectFecId = ko.observable();
         self.subjectName = ko.observable();
         self.subjectOfficeSought = ko.observable();
-        self.committeeName = ko.observable();
+        self.commissionedBy = ko.observable();
         self.committeeFecId = ko.observable();
         self.committeeTreasurer = ko.observable();
-        self.committeeLeadership = ko.observable();
+        self.principals = ko.observable();
+        self.principalsList = ko.computed(function() {
+            var raw_input = self.principals();
+            if (raw_input == undefined) {
+                return undefined;
+            };
+            var list = raw_input.split('\n');
+            return list;
+        });
         self.purchases = ko.observableArray([new PurchaseModel()]);
         self.addPurchase = function () {
             self.purchases.push(new PurchaseModel());
@@ -111,7 +120,7 @@ function($, JSON, ko, _, typeaheads) {
             self.subjectFecId(exampleData.subjectFecId);
             self.subjectName(exampleData.subjectName);
             self.subjectOfficeSought(exampleData.subjectOfficeSought);
-            self.committeeName(exampleData.committeeName);
+            self.commissionedBy(exampleData.commissionedBy);
             self.committeeTreasurer(exampleData.committeeTreasurer);
             self.purchases(exampleData.purchases);
         };
@@ -128,7 +137,7 @@ function($, JSON, ko, _, typeaheads) {
             self.subjectFecId(null);
             self.subjectName(null);
             self.subjectOfficeSought(null);
-            self.committeeName(null);
+            self.commissionedBy(null);
             self.committeeTreasurer(null);
             self.committeeFecId(null);
             self.purchases([new PurchaseModel()]);
@@ -145,7 +154,7 @@ function($, JSON, ko, _, typeaheads) {
         };
         self.matchCommitteeToFecId = function() {
             try {
-                var fecId = typeaheads.committees[self.committeeName()];
+                var fecId = typeaheads.committees[self.commissionedBy()];
                 if (fecId != null) {
                     self.committeeFecId(fecId);
                     return self.committeeFecId;
