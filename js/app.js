@@ -8,77 +8,46 @@ require(['jquery', 'json2', 'knockout-2.3.0', 'underscore-min', 'data/typeaheads
 function($, JSON, ko, _, typeaheads) {
     var committee_names, candidate_names, data_uri, subject_selector, candidate_check_selector;
 
-// http://politicaladsleuth.com/political-files/2e5fd270-d28f-409a-9f68-b2d58e31c290/
+// http://politicaladsleuth.com/political-files/d048f5d0-ee8e-4e29-a49b-1ea97487dd4c/
     var exampleData = {
-        "stationCallsign": "WRAL-TV",
+        "contractNumber": "8533",
+        "stationCallsign": "WABC-TV",
         "purchaseApproved": true,
-        "contractAmount": 60035.00,
-        "advertiserName": "Greer Margolis & Mitchell",
-        "advertiserContactName": "Jester, Daniel",
-        "advertiserContactAddress": "1010 Wisconsin Avenue,\nSuite 800\nWashington,DC 20007",
+        "contractAmount": 8900.00,
+        "advertiserName": "Campaign Group, The",
+        "advertiserContactName": "Cabanel, Lisa",
+        "advertiserContactAddress": "1600 Locust Street\nPhiladelphia,PA 19103",
         "advertiserContactPhone": "000-555-1010",
         "advertisementSubject": "Candidate",
         "isByCandidate": true,
-        "subjectName": "OBAMA, BARACK",
-        "subjectOfficeSought": "President of the United States",
-        "committeeName": "OBAMA FOR AMERICA",
-        "committeeTreasurer": "Nesbit, Martin",
+        "subjectName": "PALLONE, FRANK JR",
+        "subjectOfficeSought": "U.S. Senate",
+        "committeeName": "PALLONE FOR SENATE",
+        "committeeTreasurer": "Nichols, Peter D.",
         "purchases": [
             {
-                "startDate": "10/9/12",
-                "endDate": "10/12/12",
-                "beginTime": "1:00pm",
-                "endTime": "1:30pm",
-                "adRate": 825.00
+                "startDate": "8/12/13",
+                "endDate": "8/12/13",
+                "beginTime": "6:15am",
+                "endTime": "7:00am",
+                "adRate": 1400.00,
+                "numberSpots": 1
             },
             {
-                "startDate": "10/9/12",
-                "endDate": "10/12/12",
-                "beginTime": "10:00am,",
-                "endTime": "11:300am",
-                "adRate": 500.00
+                "startDate": "8/12/13",
+                "endDate": "8/12/13",
+                "beginTime": "7:00am,",
+                "endTime": "9:00am",
+                "adRate": 2000.00,
+                "numberSpots": 2
             },
             {
-                "startDate": "10/9/12",
-                "endDate": "10/12/12",
-                "beginTime": "11:35pm,",
-                "endTime": "12:37am",
-                "adRate": 230.00
-            },
-            {
-                "startDate": "10/9/12",
-                "endDate": "10/12/12",
-                "beginTime": "11:00am,",
-                "endTime": "12:00pm",
-                "adRate": 5625.00
-            },
-            {
-                "startDate": "10/9/12",
-                "endDate": "10/12/12",
-                "beginTime": "12:37am,",
-                "endTime": "1:37am",
-                "adRate": 105.00
-            },
-            {
-                "startDate": "10/9/12",
-                "endDate": "10/12/12",
-                "beginTime": "12:00pm,",
-                "endTime": "1:00pm",
-                "adRate": 625.00
-            },
-            {
-                "startDate": "10/9/12",
-                "endDate": "10/12/12",
-                "beginTime": "1:30pm",
-                "endTime": "4:00pm",
-                "adRate": 405.00
-            },
-            {
-                "startDate": "10/9/12",
-                "endDate": "10/12/12",
-                "beginTime": "4:00pm",
-                "endTime": "5:00pm",
-                "adRate": 2520.00
+                "startDate": "8/12/13",
+                "endDate": "8/12/13",
+                "beginTime": "11:15pm,",
+                "endTime": "11:35pm",
+                "adRate": 3500.00,
+                "numberSpots": 1
             }
         ]
     };
@@ -91,6 +60,7 @@ function($, JSON, ko, _, typeaheads) {
         self.beginTime = ko.observable(null);
         self.endTime = ko.observable(null);
         self.adRate = ko.observable(null);
+        self.numberSpots = ko.observable();
     }
 
     function FormViewModel() {
@@ -128,21 +98,22 @@ function($, JSON, ko, _, typeaheads) {
             return ko.toJSON(exampleData, null, 4);
         };
         self.resetForm = function() {
-            appFormView.stationCallsign(null);
-            appFormView.purchaseApproved(true);
-            appFormView.contractAmount(null);
-            appFormView.advertiserName(null);
-            appFormView.advertiserContactName(null);
-            appFormView.advertiserContactAddress(null);
-            appFormView.advertiserContactPhone(null);
-            appFormView.advertisementSubject(null);
-            appFormView.isByCandidate(null);
-            appFormView.subjectFecId(null);
-            appFormView.subjectName(null);
-            appFormView.subjectOfficeSought(null);
-            appFormView.committeeName(null);
-            appFormView.committeeTreasurer(null);
-            appFormView.committeeFecId(null);
+            self.stationCallsign(null);
+            self.purchaseApproved(true);
+            self.contractAmount(null);
+            self.advertiserName(null);
+            self.advertiserContactName(null);
+            self.advertiserContactAddress(null);
+            self.advertiserContactPhone(null);
+            self.advertisementSubject(null);
+            self.isByCandidate(null);
+            self.subjectFecId(null);
+            self.subjectName(null);
+            self.subjectOfficeSought(null);
+            self.committeeName(null);
+            self.committeeTreasurer(null);
+            self.committeeFecId(null);
+            self.purchases([new PurchaseModel()]);
 
             if (!Modernizr.input.placeholder) {
                 var formpl = '#fcc_form [placeholder]';

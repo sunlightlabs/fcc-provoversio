@@ -104,7 +104,7 @@
                 <p class="lead">Demo xplainer graph. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Excepturi, officia, ratione, eius architecto totam ipsum tenetur explicabo rem nihil veniam animi nobis expedita unde consequuntur assumenda ipsam deserunt deleniti perspiciatis.</p>
                 <div class="row">
                     <div id="app-nav" class="span3">
-                        <p>The following example data comes from <a target="_new" href="http://politicaladsleuth.com/political-files/2e5fd270-d28f-409a-9f68-b2d58e31c290/">an actual 2012 ad buy</a> at WRAL-TV in Raleigh, North Carolina. Everthing but the advertiser contact telephone is real and comes from an ad contract.</p>
+                        <p>The example data comes from <a target="_new" href="http://politicaladsleuth.com/political-files/d048f5d0-ee8e-4e29-a49b-1ea97487dd4c/">an 2013 ad buy</a> at WABC-TV in New York City. Everthing but the advertiser contact telephone is real.</p>
                         <button data-toggle="modal" data-target="#example-modal" class="btn btn-primary" type="button">Load Example Data</button>
                     </div>
                     <div id="app-form" class="span9">
@@ -176,25 +176,28 @@
                                                 <li>
                                                     <label>
                                                         From:
-                                                        <input name="start-date[]" data-bind="value: startDate" type="date" class="input-mini" placeholder="1/1/2012">
+                                                        <input name="start-date[]" data-bind="value: startDate" type="text" class="input-mini" placeholder="1/1/2012">
                                                     </label>
                                                 </li>
                                                 <li>
                                                     <label>
                                                         To:
-                                                        <input name="end-date[]" data-bind="value: endDate" type="date" class="input-mini" placeholder="1/1/2012">
+                                                        <input name="end-date[]" data-bind="value: endDate" type="text" class="input-mini" placeholder="1/1/2012">
                                                     </label>
                                                 </li>
                                                 <li>
                                                     <label>
                                                         Timeslot:
-                                                        <input name="begin-time[]" data-bind="value: beginTime" type="time" class="input-mini" placeholder="4:00pm">
-                                                        <input name="end-time[]" data-bind="value: endTime" type="time" class="input-mini" placeholder="5:00pm">
+                                                        <input name="begin-time[]" data-bind="value: beginTime" type="text" class="input-mini" placeholder="4:00pm">
+                                                        <input name="end-time[]" data-bind="value: endTime" type="text" class="input-mini" placeholder="5:00pm">
                                                     </label>
                                                 </li>
                                                 <li class="input-prepend">
                                                     <span class="add-on">$</span>
-                                                    <input name="ad-rate[]" data-bind="value: adRate" type="date" class="input-mini" placeholder="00.00">
+                                                    <input name="ad-rate[]" data-bind="value: adRate" type="text" class="input-mini" placeholder="00.00">
+                                                </li>
+                                                <li>
+                                                    <input name="number-spots[]" data-bind="value: numberSpots" type="text" class="input-mini" placeholder="# Spots" >
                                                 </li>
                                             </ul>
                                         </div>
