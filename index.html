@@ -34,6 +34,13 @@
             .modal-body pre {
                 margin-bottom: 0;
             }
+
+            .form-inline input {
+                margin-right: 10px;
+            }
+            .purchase-detail {
+                margin-bottom: 10px;
+            }
         </style>
 
         <script type="text/javascript" src="//use.typekit.com/tab6neo.js"></script>
@@ -105,7 +112,14 @@
                 <div class="row">
                     <div id="app-nav" class="span3">
                         <p>The example data comes from <a target="_new" href="http://politicaladsleuth.com/political-files/d048f5d0-ee8e-4e29-a49b-1ea97487dd4c/">an 2013 ad buy</a> at WABC-TV in New York City. Everthing but the advertiser contact telephone is real.</p>
-                        <button data-toggle="modal" data-target="#example-modal" class="btn btn-primary" type="button">Load Example Data</button>
+                        <ul class="unstyled">
+                            <li>
+                                <button data-toggle="modal" data-bind="click: loadExampleData" class="btn btn-primary" type="button">Load Example Data</button>
+                            </li>
+                            <li>
+                                <button data-toggle="modal" data-target="#example-modal" class="btn" type="button">View Example Data</button>
+                            </li>
+                        </ul>
                     </div>
                     <div id="app-form" class="span9">
                         <form id="fcc_form" method="post" action="." autocomplete="off" data-bind="submit: submitForm">
@@ -145,61 +159,48 @@
                                         data-bind="options: advertisementSubjectOptions,
                                                     value: advertisementSubject, optionsCaption: 'Choose...',
                                                     attr: {required: advertisementSubjectOptions }"></select>
-                                        <label class="control-label" for="subject_name">Subject name or description</label>
+                                        <label class="control-label" for="subject_name" ><strong><span data-bind="text: advertisementSubject() != null ? advertisementSubject : 'Subject' ">&nbsp;</span> </strong>name or description</label>
                                         <input name="subject_name" id="subject_name" class="span4" type="text" placeholder="Enter candidate, issue, or election name" required data-bind="value: subjectName">
                                         <input type="hidden" name="subject_fec_id" data-bind="value: matchSubjectToFecId()">
-                                        <span class="help-block">The name of the candidate and office, the election, or the issue to which the communication refers.</span>
                                         <div id="form_candidate_extras" data-bind='visible: subjectIsCandidate()'>
                                             <label class="control-label" for="office_sought">Office sought</label>
                                             <input name="office_sought" id="office_sought" class="span4" type="text" placeholder="Enter office sought" data-bind="value: subjectOfficeSought, attr: { required: subjectIsCandidate() }">
-                                            <label class="checkbox" for="by_candidate">
-                                                <input name="by_candidate" id="by_candidate" type="checkbox" value="by_candidate" data-bind="checked: isByCandidate">
-                                                By, or on behalf of, a candidate?
-                                            </label>
                                         </div>
-                                        <div id="form_committee_details" data-bind="visible: isByCandidate">
-                                            <label class="control-label" for="committee_name">Committee of the candidate</label>
-                                            <input id="committee_name" name="committee_name" class="span4" type="text" placeholder="Enter the candidate's committee name" data-bind="value: committeeName, attr: { required: isByCandidate() }">
-                                            <input type="hidden" name="committee_fec_id" data-bind="value: matchCommitteeToFecId()">
-                                            <label class="control-label" for="committee_treasurer">Committee Treasurer</label>
-                                            <input name="committee_treasurer" id="committee_treasurer" class="span4" type="text" placeholder="Enter name of the committee's treasurer" data-bind="value: committeeTreasurer, attr: { required: isByCandidate() }">
-                                        </div>
+                                    </fieldset>
+                                    <fieldset id="form_committee_details">
+                                        <legend title="The committee or organization commissioning the ad">Ad Commissioner details</legend>
+                                        <label class="control-label" for="committee_name">Commissioned by</label>
+                                        <input id="committee_name" name="committee_name" class="span4" type="text" placeholder="Committee or organization name" data-bind="value: committeeName, attr: { required: isByCandidate() }">
+                                        <input type="hidden" name="committee_fec_id" data-bind="value: matchCommitteeToFecId()">
+                                        <label class="control-label" for="committee_treasurer"><span data-bind="text: subjectIsCandidate() ? 'Treasurer' : 'Principals'"></span></label>
+                                        <input name="committee_treasurer" id="committee_treasurer" class="span4" type="text" placeholder="Enter name of the committee's treasurer" data-bind="visible: subjectIsCandidate(), value: committeeTreasurer, attr: { required: isByCandidate() }">
+                                        <textarea name="committee_leadership" id="committee_leadership" class="span4" rows="10" data-bind="visible: !subjectIsCandidate(), value: committeeLeadership, attr: { required: !isByCandidate() }" placeholder="A list of the chief executive officers or members of the executive committee or of the board of directors."></textarea>
                                     </fieldset>
                                 </div>
                             </div>
                             <div>
-                                <fieldset>
+                                <fieldset class="form-inline">
                                     <legend>Add dates and times of communications purchased</legend>
                                     <div id="purchases"data-bind='foreach: purchases'>
                                         <div class="purchase-detail">
-                                            <ul class="inline">
-                                                <li>
-                                                    <label>
-                                                        From:
-                                                        <input name="start-date[]" data-bind="value: startDate" type="text" class="input-mini" placeholder="1/1/2012">
-                                                    </label>
-                                                </li>
-                                                <li>
-                                                    <label>
-                                                        To:
-                                                        <input name="end-date[]" data-bind="value: endDate" type="text" class="input-mini" placeholder="1/1/2012">
-                                                    </label>
-                                                </li>
-                                                <li>
-                                                    <label>
-                                                        Timeslot:
-                                                        <input name="begin-time[]" data-bind="value: beginTime" type="text" class="input-mini" placeholder="4:00pm">
-                                                        <input name="end-time[]" data-bind="value: endTime" type="text" class="input-mini" placeholder="5:00pm">
-                                                    </label>
-                                                </li>
-                                                <li class="input-prepend">
-                                                    <span class="add-on">$</span>
-                                                    <input name="ad-rate[]" data-bind="value: adRate" type="text" class="input-mini" placeholder="00.00">
-                                                </li>
-                                                <li>
-                                                    <input name="number-spots[]" data-bind="value: numberSpots" type="text" class="input-mini" placeholder="# Spots" >
-                                                </li>
-                                            </ul>
+                                            <label>
+                                                From:
+                                                <input name="start-date[]" data-bind="value: startDate" type="text" class="input-mini" placeholder="1/1/2012">
+                                            </label>
+                                            <label>
+                                                To:
+                                                <input name="end-date[]" data-bind="value: endDate" type="text" class="input-mini" placeholder="1/1/2012">
+                                            </label>
+                                            <label>
+                                                Timeslot:
+                                                <input name="begin-time[]" data-bind="value: beginTime" type="text" class="input-mini" placeholder="4:00pm">
+                                                <input name="end-time[]" data-bind="value: endTime" type="text" class="input-mini" placeholder="5:00pm">
+                                            </label>
+                                            <div class="input-prepend">
+                                                <span class="add-on">$</span>
+                                                <input name="ad-rate[]" data-bind="value: adRate" type="text" class="input-mini" placeholder="00.00">
+                                            </div>
+                                            <input name="number-spots[]" data-bind="value: numberSpots" type="text" class="input-mini" placeholder="# Spots" >
                                         </div>
                                     </div>
                                     <button class="btn btn-small" type="button" data-bind="click: addPurchase">Add Row</button>
@@ -241,15 +242,14 @@
         <div id="example-modal" class="modal hide fade">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h3>Load Data</h3>
+                <h3>Example Data in <abbr title="JavaScript Object Notation">JSON</abbr> format</h3>
             </div>
             <div class="modal-body">
-                <p>If the FCC creates a standardized machine-readable format for submissions, compliance documents could be filed electronically!!</p>
+                <p>If the FCC creates a standardized machine-readable format for submissions, compliance documents could be filed electronically.</p>
                 <pre><code class="language-javascript terminal" data-bind="text: exampleJSON()"></code></pre>
             </div>
             <div class="modal-footer">
-                <button id="fill-approve" class="btn btn-primary">Fill form with data</button>
-                <button class="btn" data-dismiss="modal">Cancel</button>
+                <button class="btn btn-small" data-dismiss="modal">Close</button>
             </div>
         </div>
         <div id="form-submit-modal" class="modal hide fade">

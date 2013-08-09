@@ -84,6 +84,7 @@ function($, JSON, ko, _, typeaheads) {
         self.committeeName = ko.observable();
         self.committeeFecId = ko.observable();
         self.committeeTreasurer = ko.observable();
+        self.committeeLeadership = ko.observable();
         self.purchases = ko.observableArray([new PurchaseModel()]);
         self.addPurchase = function () {
             self.purchases.push(new PurchaseModel());
@@ -96,6 +97,23 @@ function($, JSON, ko, _, typeaheads) {
         }
         self.exampleJSON = function() {
             return ko.toJSON(exampleData, null, 4);
+        };
+        self.loadExampleData = function() {
+            self.stationCallsign(exampleData.stationCallsign);
+            self.purchaseApproved(exampleData.purchaseApproved);
+            self.contractAmount(exampleData.contractAmount);
+            self.advertiserName(exampleData.advertiserName);
+            self.advertiserContactName(exampleData.advertiserContactName);
+            self.advertiserContactAddress(exampleData.advertiserContactAddress);
+            self.advertiserContactPhone(exampleData.advertiserContactPhone);
+            self.advertisementSubject(exampleData.advertisementSubject);
+            self.isByCandidate(exampleData.isByCandidate);
+            self.subjectFecId(exampleData.subjectFecId);
+            self.subjectName(exampleData.subjectName);
+            self.subjectOfficeSought(exampleData.subjectOfficeSought);
+            self.committeeName(exampleData.committeeName);
+            self.committeeTreasurer(exampleData.committeeTreasurer);
+            self.purchases(exampleData.purchases);
         };
         self.resetForm = function() {
             self.stationCallsign(null);
@@ -213,27 +231,6 @@ function($, JSON, ko, _, typeaheads) {
 
         }
     }
-
-    // Button for loading example data
-    $(document).on('click', '#fill-approve', function(event) {
-        event.preventDefault();
-        appFormView.stationCallsign(exampleData.stationCallsign);
-        appFormView.purchaseApproved(exampleData.purchaseApproved);
-        appFormView.contractAmount(exampleData.contractAmount);
-        appFormView.advertiserName(exampleData.advertiserName);
-        appFormView.advertiserContactName(exampleData.advertiserContactName);
-        appFormView.advertiserContactAddress(exampleData.advertiserContactAddress);
-        appFormView.advertiserContactPhone(exampleData.advertiserContactPhone);
-        appFormView.advertisementSubject(exampleData.advertisementSubject);
-        appFormView.isByCandidate(exampleData.isByCandidate);
-        appFormView.subjectFecId(exampleData.subjectFecId);
-        appFormView.subjectName(exampleData.subjectName);
-        appFormView.subjectOfficeSought(exampleData.subjectOfficeSought);
-        appFormView.committeeName(exampleData.committeeName);
-        appFormView.committeeTreasurer(exampleData.committeeTreasurer);
-        appFormView.purchases(exampleData.purchases);
-        $('#example-modal').modal('hide')
-    });
 
     committee_names = _.keys(typeaheads.committees);
     candidate_names = _.keys(typeaheads.candidates);
