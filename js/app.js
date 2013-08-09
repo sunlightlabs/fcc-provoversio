@@ -15,12 +15,12 @@ function($, JSON, ko, _, typeaheads) {
         "stationCallsign": "WABC-TV",
         "purchaseApproved": true,
         "contractAmount": 8900.00,
-        "advertiserName": "Campaign Group, The",
-        "advertiserContactName": "Cabanel, Lisa",
-        "advertiserContactAddress": "1600 Locust Street\nPhiladelphia,PA 19103",
-        "advertiserContactPhone": "000-555-1010",
-        "advertisementSubject": "Candidate",
-        "isByCandidate": true,
+        "commissionedByCandidateOrCommittee": true,
+        "commissionerCandidate": "PALLONE, FRANK JR",
+        "commissionerCommittee": "PALLONE FOR SENATE",
+        "commissionerContactAddress": "",
+        "commissionerContactPhone": "000-555-1010",
+        "refersToCandidate": true,
         "subjectName": "PALLONE, FRANK JR",
         "subjectOfficeSought": "U.S. Senate",
         "commissionedBy": "PALLONE FOR SENATE",
@@ -73,22 +73,21 @@ function($, JSON, ko, _, typeaheads) {
         self.stationCallsign = ko.observable();
         self.purchaseApproved = ko.observable(true);
         self.contractAmount = ko.observable();
-        self.advertiserName = ko.observable();
-        self.advertiserContactName = ko.observable();
-        self.advertiserContactAddress = ko.observable();
-        self.advertiserContactPhone = ko.observable();
+        self.commissionedByCandidateOrCommittee = ko.observable(false);
+        self.commissionerCandidate = ko.observable();
+        self.commissionerCommittee = ko.observable();
+        self.committeeTreasurer = ko.observable();
+        self.commissionedBy = ko.observable();
+        self.commissionerContactAddress = ko.observable();
+        self.commissionerContactPhone = ko.observable();
         self.advertisementSubjectOptions = ko.observableArray(['Candidate', 'Issue', 'Election']);
         self.advertisementSubject = ko.observable();
-        self.subjectIsCandidate = function() {
-            return (self.advertisementSubject() == 'Candidate');
-        };
-        self.isByCandidate = ko.observable();
+        self.refersToCandidate = ko.observable(false);
         self.subjectFecId = ko.observable();
         self.subjectName = ko.observable();
         self.subjectOfficeSought = ko.observable();
         self.commissionedBy = ko.observable();
         self.committeeFecId = ko.observable();
-        self.committeeTreasurer = ko.observable();
         self.principals = ko.observable();
         self.principalsList = ko.computed(function() {
             var raw_input = self.principals();
@@ -115,35 +114,38 @@ function($, JSON, ko, _, typeaheads) {
             self.stationCallsign(exampleData.stationCallsign);
             self.purchaseApproved(exampleData.purchaseApproved);
             self.contractAmount(exampleData.contractAmount);
-            self.advertiserName(exampleData.advertiserName);
-            self.advertiserContactName(exampleData.advertiserContactName);
-            self.advertiserContactAddress(exampleData.advertiserContactAddress);
-            self.advertiserContactPhone(exampleData.advertiserContactPhone);
+            self.commissionedByCandidateOrCommittee(exampleData.commissionedByCandidateOrCommittee);
+            self.commissionerCandidate(exampleData.commissionerCandidate);
+            self.commissionerCommittee(exampleData.commissionerCommittee);
+            self.committeeTreasurer(exampleData.committeeTreasurer);
+            self.commissionedBy(exampleData.commissionedBy);
+            self.commissionerContactAddress(exampleData.commissionerContactAddress);
+            self.commissionerContactPhone(exampleData.commissionerContactPhone);
             self.advertisementSubject(exampleData.advertisementSubject);
-            self.isByCandidate(exampleData.isByCandidate);
+            self.refersToCandidate(exampleData.refersToCandidate);
             self.subjectFecId(exampleData.subjectFecId);
             self.subjectName(exampleData.subjectName);
             self.subjectOfficeSought(exampleData.subjectOfficeSought);
             self.commissionedBy(exampleData.commissionedBy);
-            self.committeeTreasurer(exampleData.committeeTreasurer);
             self.purchases(exampleData.purchases);
         };
         self.resetForm = function() {
             self.stationCallsign(null);
             self.purchaseApproved(true);
             self.contractAmount(null);
-            self.advertiserName(null);
-            self.advertiserContactName(null);
-            self.advertiserContactAddress(null);
-            self.advertiserContactPhone(null);
+            self.commissionedByCandidateOrCommittee(false);
+            self.commissionedBy(null);
+            self.commissionerContactAddress(null);
+            self.commissionerContactPhone(null);
+            self.commissionerCandidate(null);
+            self.commissionerCommittee(null);
             self.advertisementSubject(null);
-            self.isByCandidate(null);
+            self.refersToCandidate(false);
             self.subjectFecId(null);
             self.subjectName(null);
             self.subjectOfficeSought(null);
             self.commissionedBy(null);
             self.committeeTreasurer(null);
-            self.committeeFecId(null);
             self.purchases([new PurchaseModel()]);
 
             if (!Modernizr.input.placeholder) {
@@ -176,11 +178,6 @@ function($, JSON, ko, _, typeaheads) {
             }
             catch(e){return null;};
         };
-        self.anyAdvertiserInfo = function() {
-            var hasAdvertiserName = !(self.advertiserName() == undefined || self.advertiserName() == '');
-            var hasContactName = !(self.advertiserContactName() == undefined || self.advertiserContactName() == '');
-            return (hasAdvertiserName || hasContactName);
-        };
     }
 
     var appFormView = new FormViewModel();
@@ -191,13 +188,13 @@ function($, JSON, ko, _, typeaheads) {
         $('input[name=station_callsign]').typeahead({
             source: typeaheads.callsigns
         });
-        $('input[name=committee_name]').typeahead({
+        $('input[name=commissionerCommittee],input[name=commissionedBy]').typeahead({
             minLength: 2,
             source: function(query, callback) {
                 callback(committee_names);
             }
         });
-        $('input[name=subject_name]').typeahead({
+        $('input[name=subjectName],input[name=commissionerCandidate]').typeahead({
             minLength: 2,
             source: function(query, callback) {
                 callback(candidate_names);
