@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>An example FCC Form</title>
+        <title>An example FCC Form - Sunlight Foundation</title>
         <link rel="stylesheet" href="sfapp/css/bootstrap.min.css">
         <link rel="stylesheet" href="sfapp/css/sfapp.css">
         <style>
@@ -39,7 +39,14 @@
                 margin-right: 10px;
             }
             .purchase-detail {
-                margin-bottom: 10px;
+                margin-bottom: 20px;
+            }
+            .vert-stripe {
+                border-left: 5px solid #F6F6F6;
+                padding-left: 5px;
+            }
+            .vert-stripe.span4 {
+                width: 290px;
             }
         </style>
 
@@ -182,25 +189,30 @@
                                 <fieldset class="form-inline">
                                     <legend>Add dates and times of communications purchased</legend>
                                     <div id="purchases"data-bind='foreach: purchases'>
-                                        <div class="purchase-detail">
-                                            <label>
-                                                From:
-                                                <input name="start-date[]" data-bind="value: startDate" type="text" class="input-mini" placeholder="1/1/2012">
-                                            </label>
-                                            <label>
-                                                To:
-                                                <input name="end-date[]" data-bind="value: endDate" type="text" class="input-mini" placeholder="1/1/2012">
-                                            </label>
-                                            <label>
-                                                Timeslot:
-                                                <input name="begin-time[]" data-bind="value: beginTime" type="text" class="input-mini" placeholder="4:00pm">
-                                                <input name="end-time[]" data-bind="value: endTime" type="text" class="input-mini" placeholder="5:00pm">
-                                            </label>
-                                            <div class="input-prepend">
-                                                <span class="add-on">$</span>
-                                                <input name="ad-rate[]" data-bind="value: adRate" type="text" class="input-mini" placeholder="00.00">
+                                        <div class="purchase-detail row">
+                                            <div class="vert-stripe span4">
+                                                <label>
+                                                    From:
+                                                    <input name="start-date[]" data-bind="value: startDate" type="text" class="input-mini" placeholder="1/1/2012">
+                                                </label>
+                                                <label>
+                                                    To:
+                                                    <input name="end-date[]" data-bind="value: endDate" type="text" class="input-mini" placeholder="1/1/2012">
+                                                </label>
+                                                <label>
+                                                    Timeslot:
+                                                    <input name="begin-time[]" data-bind="value: beginTime" type="text" class="input-mini" placeholder="4:00pm">
+                                                    <input name="end-time[]" data-bind="value: endTime" type="text" class="input-mini" placeholder="5:00pm">
+                                                </label>
                                             </div>
-                                            <input name="number-spots[]" data-bind="value: numberSpots" type="text" class="input-mini" placeholder="# Spots" >
+                                            <div class="span5">
+                                                <div class="input-prepend">
+                                                    <span class="add-on">$</span>
+                                                    <input name="ad-rate[]" data-bind="value: adRate" type="text" class="input-mini" placeholder="00.00">
+                                                </div>
+                                                <input name="number-spots[]" data-bind="value: numberSpots" type="text" class="input-mini" placeholder="# Spots" >
+                                                <input name="time-class[]" data-bind="value: timeClass" type="text" class="input-small" placeholder="Class of time" >
+                                            </div>
                                         </div>
                                     </div>
                                     <button class="btn btn-small" type="button" data-bind="click: addPurchase">Add Row</button>

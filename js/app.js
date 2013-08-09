@@ -32,7 +32,8 @@ function($, JSON, ko, _, typeaheads) {
                 "beginTime": "6:15am",
                 "endTime": "7:00am",
                 "adRate": 1400.00,
-                "numberSpots": 1
+                "numberSpots": 1,
+                "timeClass": null
             },
             {
                 "startDate": "8/12/13",
@@ -40,7 +41,8 @@ function($, JSON, ko, _, typeaheads) {
                 "beginTime": "7:00am,",
                 "endTime": "9:00am",
                 "adRate": 2000.00,
-                "numberSpots": 2
+                "numberSpots": 2,
+                "timeClass": null
             },
             {
                 "startDate": "8/12/13",
@@ -48,7 +50,8 @@ function($, JSON, ko, _, typeaheads) {
                 "beginTime": "11:15pm,",
                 "endTime": "11:35pm",
                 "adRate": 3500.00,
-                "numberSpots": 1
+                "numberSpots": 1,
+                "timeClass": null
             }
         ]
     };
@@ -62,6 +65,7 @@ function($, JSON, ko, _, typeaheads) {
         self.endTime = ko.observable(null);
         self.adRate = ko.observable(null);
         self.numberSpots = ko.observable();
+        self.timeClass = ko.observable();
     }
 
     function FormViewModel() {
