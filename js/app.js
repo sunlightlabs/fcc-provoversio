@@ -38,7 +38,7 @@ function($, JSON, ko, _, typeaheads) {
             {
                 "startDate": "8/12/13",
                 "endDate": "8/12/13",
-                "beginTime": "7:00am,",
+                "beginTime": "7:00am",
                 "endTime": "9:00am",
                 "adRate": 2000.00,
                 "numberSpots": 2,
@@ -47,7 +47,7 @@ function($, JSON, ko, _, typeaheads) {
             {
                 "startDate": "8/12/13",
                 "endDate": "8/12/13",
-                "beginTime": "11:15pm,",
+                "beginTime": "11:15pm",
                 "endTime": "11:35pm",
                 "adRate": 3500.00,
                 "numberSpots": 1,
