@@ -164,9 +164,10 @@
                                 </div>
                             </div>
                             <fieldset>
-                                <legend>Ad Commission Details</legend>
+                                <legend>Ad Sponsor Details</legend>
+                                <p class="text-warning">Enter information about the <em>sponsor</em>, not the media buyer.</p>
                                 <label class="checkbox">
-                                    <input type="checkbox" name="byCandidateOrCommittee" id="byCandidateOrCommittee" data-bind="checked: commissionedByCandidateOrCommittee" >Is this ad commission made by or on behalf of a candidate, or by or on behalf of their authorized political committee?
+                                    <input type="checkbox" name="byCandidateOrCommittee" id="byCandidateOrCommittee" data-bind="checked: commissionedByCandidateOrCommittee" >Was this ad purchased by or on behalf of a candidate, or by or on behalf of their authorized political committee?
                                 </label>
                                 <div data-bind="visible: commissionedByCandidateOrCommittee()">
                                         <label class="control-label" for="commissionerCandidate">Candidate Name</label>
@@ -178,7 +179,7 @@
                                 </div>
                                 <div class="row" data-bind="visible: commissionedByCandidateOrCommittee() != true">
                                     <div class="span4">
-                                        <label class="control-label" for="commissionedBy">Commissioning Organization</label>
+                                        <label class="control-label" for="commissionedBy">Sponsor Organization</label>
                                         <input autocomplete="on" name="commissionedBy" id="commissionedBy" class="span4" type="text" placeholder="Name of organization commissioning ad" data-bind="value: commissionedBy, attr: { required: !commissionedByCandidateOrCommittee }">
                                         <input type="hidden" name="committeeFecId" data-bind="value: matchCommitteeToFecId()">
                                         <label class="control-label">Contact Address</label>
