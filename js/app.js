@@ -1,8 +1,10 @@
-require.config({ baseUrl: 'js/lib',
-    paths: { templates:'../tpl', data: '../data', jquery: 'jquery-1.10.2.min', sfapp: '../../sfapp' },
+var app_conf = {
+    baseUrl: 'js/lib',
+    paths: { data: '../data', jquery: 'jquery-1.10.2.min', sfapp: '../../sfapp' },
     shim: { "underscore-min": { exports: '_' }, "json2": {exports:"JSON"}, "knockout-2.3.0": { deps: ["json2"], exports: "ko"},
             "sfapp/js/bootstrap.min": ["jquery"], "sfapp/js/sfapp": ["jquery",  "sfapp/js/bootstrap.min"] }
-});
+};
+require.config(app_conf);
 
 require(['jquery', 'json2', 'knockout-2.3.0', 'underscore-min', 'data/typeaheads',
         'modernizr.min', 'sfapp/js/bootstrap.min', 'sfapp/js/sfapp'],
@@ -66,7 +68,7 @@ function($, JSON, ko, _, typeaheads) {
         self.adRate = ko.observable(null);
         self.numberSpots = ko.observable();
         self.timeClass = ko.observable();
-    }
+    };
 
     function FormViewModel() {
         var self = this;
@@ -93,20 +95,20 @@ function($, JSON, ko, _, typeaheads) {
             var raw_input = self.principals();
             if (raw_input == undefined) {
                 return undefined;
-            };
+            }
             var list = raw_input.split('\n');
             return list;
         });
         self.purchases = ko.observableArray([new PurchaseModel()]);
         self.addPurchase = function () {
             self.purchases.push(new PurchaseModel());
-        }
+        };
         self.trimForExport = function (key, value) {
             if (key == "advertisementSubjectOptions") {
                 return undefined;
             }
             return value;
-        }
+        };
         self.exampleJSON = function() {
             return ko.toJSON(exampleData, null, 4);
         };
@@ -164,9 +166,9 @@ function($, JSON, ko, _, typeaheads) {
                 if (fecId != null) {
                     self.committeeFecId(fecId);
                     return self.committeeFecId;
-                };
+                }
             }
-            catch(e){return null;};
+            catch(e){return null;}
         };
         self.matchSubjectToFecId = function() {
             try {
@@ -174,9 +176,9 @@ function($, JSON, ko, _, typeaheads) {
                 if (fecId != null) {
                     self.subjectFecId(fecId);
                     return self.subjectFecId;
-                };
+                }
             }
-            catch(e){return null;};
+            catch(e){return null;}
         };
     }
 
@@ -194,12 +196,14 @@ function($, JSON, ko, _, typeaheads) {
                 callback(committee_names);
             }
         });
-        $('input[name=subjectName],input[name=commissionerCandidate]').typeahead({
+        var candidateTypeaheadConfig = {
             minLength: 2,
             source: function(query, callback) {
                 callback(candidate_names);
             }
-        });
+        };
+        $('input[name=subject_name]').typeahead(candidateTypeaheadConfig);
+        $('input[name=commissionerCandidate]').typeahead(candidateTypeaheadConfig);
         $('input[name=office_sought]').typeahead({
             source: ["U.S. Senate", "U.S. House of Representatives", "President of the United States", "Governor of "]
         });

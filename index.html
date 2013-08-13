@@ -154,7 +154,7 @@
                                             <input type="checkbox" name="refersToCandidate" id="refersToCandidate" data-bind="checked: refersToCandidate" >Does this ad refer to any candidate for office?
                                         </label>
                                         <label class="control-label" for="subject_name" ><strong><span data-bind="text: refersToCandidate() ? 'Candidate' : 'Issue or Election' ">&nbsp;</span> </strong>name</label>
-                                        <input name="subject_name" id="subject_name" class="span4" type="text" placeholder="Candidate, issue, or election name" required data-bind="value: subjectName">
+                                        <input name="subject_name" id="subjectName" class="span4" type="text" placeholder="Candidate, issue, or election name" required data-bind="value: subjectName">
                                         <input type="hidden" name="subject_fec_id" data-bind="value: matchSubjectToFecId()">
                                         <div id="form_candidate_extras" data-bind='visible: refersToCandidate()'>
                                             <label class="control-label" for="office_sought">Office sought by candidate</label>
