@@ -153,22 +153,23 @@
                                     </label>
                                 </fieldset>
                                 <div data-bind="visible: isByCandidateOrCommittee()">
-                                        <label for="commissionerCandidate">Candidate Name</label>
-                                        <input autocomplete="on" name="commissionerCandidate" id="commissionerCandidate" class="span4" type="text" placeholder="Enter the candidate name" required data-bind="value: commissionerCandidate, attr: { required: isByCandidateOrCommittee }, enable: isByCandidateOrCommittee">
-                                        <label for="commissionerCommittee">Candidate's Authorized Committee</label>
-                                        <input name="commissionerCommittee" id="commissionerCommittee" class="span4" type="text" placeholder="Enter name of the committee" data-bind="value: commissionerCommittee, attr: { required: isByCandidateOrCommittee }, enable: isByCandidateOrCommittee">
-                                        <label for="committeeTreasurer">Treasurer</label>
-                                        <input name="committeeTreasurer" id="committeeTreasurer" class="span4" type="text" placeholder="Enter name of the committee's treasurer" data-bind="value: committeeTreasurer, attr: { required: isByCandidateOrCommittee }, enable: isByCandidateOrCommittee">
+                                        <label for="sponsorCandidate">Candidate Name</label>
+                                        <input autocomplete="on" name="sponsorCandidate" id="sponsorCandidate" class="span4" type="text" placeholder="Enter the candidate name" required data-bind="value: sponsorCandidate, attr: { required: isByCandidateOrCommittee }, enable: isByCandidateOrCommittee">
+                                        <label for="sponsorCommittee">Candidate's Authorized Committee</label>
+                                        <input name="sponsorCommittee" id="sponsorCommittee" class="span4" type="text" placeholder="Enter name of the committee" data-bind="value: sponsorCommittee, attr: { required: isByCandidateOrCommittee }, enable: isByCandidateOrCommittee">
+                                        <input type="hidden" name="sponsorCommitteeFecId" data-bind="value: matchSponsorCommitteeToFecId()">
+                                        <label for="sponsorCommitteeTreasurer">Treasurer</label>
+                                        <input name="sponsorCommitteeTreasurer" id="sponsorCommitteeTreasurer" class="span4" type="text" placeholder="Enter name of the committee's treasurer" data-bind="value: sponsorCommitteeTreasurer, attr: { required: isByCandidateOrCommittee }, enable: isByCandidateOrCommittee">
                                 </div>
                                 <div class="row" data-bind="visible: !isByCandidateOrCommittee()">
                                     <div class="span4">
-                                        <label for="commissionedBy">Sponsor Organization</label>
-                                        <input autocomplete="on" name="commissionedBy" id="commissionedBy" class="span4" type="text" placeholder="Name of organization commissioning ad" data-bind="value: commissionedBy, attr: { required: !isByCandidateOrCommittee() }, disable: isByCandidateOrCommittee">
-                                        <input type="hidden" name="committeeFecId" data-bind="value: matchCommitteeToFecId()">
+                                        <label for="sponsoredBy">Sponsor Organization</label>
+                                        <input autocomplete="on" name="sponsoredBy" id="sponsoredBy" class="span4" type="text" placeholder="Name of organization commissioning ad" data-bind="value: sponsoredBy, attr: { required: !isByCandidateOrCommittee() }, disable: isByCandidateOrCommittee">
+                                        <input type="hidden" name="sponsorFecId" data-bind="value: matchCommitteeToFecId()">
                                         <label>Contact Address</label>
-                                        <textarea id="commissionerContactAddress" name="commissionerContactAddress" class="span4" rows="4" placeholder="Address line 1, Address line 2, City, State Zipcode"  data-bind="value: commissionerContactAddress, attr: { required: !isByCandidateOrCommittee() }, disable: isByCandidateOrCommittee"></textarea>
-                                        <label for="commissionerContactPhone">Contact Phone Number</label>
-                                        <input autocomplete="on" name="commissionerContactPhone" id="commissionerContactPhone" class="span4" type="tel" placeholder="XXX-XXX-XXXX ext. 2121" data-bind="value: commissionerContactPhone, attr: { required: !isByCandidateOrCommittee() }, disable: isByCandidateOrCommittee">
+                                        <textarea id="sponsorContactAddress" name="sponsorContactAddress" class="span4" rows="4" placeholder="Address line 1, Address line 2, City, State Zipcode"  data-bind="value: sponsorContactAddress, attr: { required: !isByCandidateOrCommittee() }, disable: isByCandidateOrCommittee"></textarea>
+                                        <label for="sponsorContactPhone">Contact Phone Number</label>
+                                        <input autocomplete="on" name="sponsorContactPhone" id="sponsorContactPhone" class="span4" type="tel" placeholder="XXX-XXX-XXXX ext. 2121" data-bind="value: sponsorContactPhone, attr: { required: !isByCandidateOrCommittee() }, disable: isByCandidateOrCommittee">
                                     </div>
                                     <div class="span4 offset1">
                                         <label for="principals">Principals</label>

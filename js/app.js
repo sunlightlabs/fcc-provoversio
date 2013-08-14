@@ -57,13 +57,13 @@ function evaluateYesNo (value) {
         "purchaseApproved": "yes",
         "contractAmount": 8900.00,
         "byCandidateOrCommittee": "yes",
-        "commissionerCandidate": "PALLONE, FRANK JR",
-        "commissionerCommittee": "PALLONE FOR SENATE",
+        "sponsorCandidate": "PALLONE, FRANK JR",
+        "sponsorCommittee": "PALLONE FOR SENATE",
         "refersToCandidate": "yes",
         "subjectName": "PALLONE, FRANK JR",
         "subjectOfficeSought": "U.S. Senate",
-        "commissionedBy": "PALLONE FOR SENATE",
-        "committeeTreasurer": "Nichols, Peter D.",
+        "sponsoredBy": "PALLONE FOR SENATE",
+        "sponsorCommitteeTreasurer": "Nichols, Peter D.",
         "purchases": [
             {
                 "startDate": "8/12/13",
@@ -120,12 +120,13 @@ function evaluateYesNo (value) {
             }
             return val;
         });
-        self.commissionerCandidate = ko.observable();
-        self.commissionerCommittee = ko.observable();
-        self.committeeTreasurer = ko.observable();
-        self.commissionedBy = ko.observable();
-        self.commissionerContactAddress = ko.observable();
-        self.commissionerContactPhone = ko.observable();
+        self.sponsorCandidate = ko.observable();
+        self.sponsorCommittee = ko.observable();
+        self.sponsorCommitteeTreasurer = ko.observable();
+        self.sponsorCommitteeFecId = ko.observable();
+        self.sponsoredBy = ko.observable();
+        self.sponsorContactAddress = ko.observable();
+        self.sponsorContactPhone = ko.observable();
         self.advertisementSubjectOptions = ko.observableArray(['Candidate', 'Issue', 'Election']);
         self.advertisementSubject = ko.observable();
         self.refersToCandidate = ko.observable();
@@ -135,8 +136,8 @@ function evaluateYesNo (value) {
         self.subjectFecId = ko.observable();
         self.subjectName = ko.observable();
         self.subjectOfficeSought = ko.observable();
-        self.commissionedBy = ko.observable();
-        self.committeeFecId = ko.observable();
+        self.sponsoredBy = ko.observable();
+        self.sponsorFecId = ko.observable();
         self.principals = ko.observable();
         self.principalsList = ko.computed(function() {
             var raw_input = self.principals();
@@ -161,18 +162,19 @@ function evaluateYesNo (value) {
             self.purchaseApproved(exampleData.purchaseApproved);
             self.contractAmount(exampleData.contractAmount);
             self.byCandidateOrCommittee(exampleData.byCandidateOrCommittee);
-            self.commissionerCandidate(exampleData.commissionerCandidate);
-            self.commissionerCommittee(exampleData.commissionerCommittee);
-            self.committeeTreasurer(exampleData.committeeTreasurer);
-            self.commissionedBy(exampleData.commissionedBy);
-            self.commissionerContactAddress(exampleData.commissionerContactAddress);
-            self.commissionerContactPhone(exampleData.commissionerContactPhone);
+            self.sponsorCandidate(exampleData.sponsorCandidate);
+            self.sponsorCommittee(exampleData.sponsorCommittee);
+            self.sponsorCommitteeTreasurer(exampleData.sponsorCommitteeTreasurer);
+            self.sponsorCommitteeFecId(exampleData.sponsorCommitteeFecId);
+            self.sponsoredBy(exampleData.sponsoredBy);
+            self.sponsorContactAddress(exampleData.sponsorContactAddress);
+            self.sponsorContactPhone(exampleData.sponsorContactPhone);
             self.advertisementSubject(exampleData.advertisementSubject);
             self.refersToCandidate(exampleData.refersToCandidate);
             self.subjectFecId(exampleData.subjectFecId);
             self.subjectName(exampleData.subjectName);
             self.subjectOfficeSought(exampleData.subjectOfficeSought);
-            self.commissionedBy(exampleData.commissionedBy);
+            self.sponsoredBy(exampleData.sponsoredBy);
             self.purchases(exampleData.purchases);
         };
         self.resetForm = function() {
@@ -180,18 +182,19 @@ function evaluateYesNo (value) {
             self.purchaseApproved(true);
             self.contractAmount(null);
             self.byCandidateOrCommittee(false);
-            self.commissionedBy(null);
-            self.commissionerContactAddress(null);
-            self.commissionerContactPhone(null);
-            self.commissionerCandidate(null);
-            self.commissionerCommittee(null);
+            self.sponsoredBy(null);
+            self.sponsorContactAddress(null);
+            self.sponsorContactPhone(null);
+            self.sponsorCandidate(null);
+            self.sponsorCommittee(null);
+            self.sponsorCommitteeFecId(null);
             self.advertisementSubject(null);
             self.refersToCandidate(null);
             self.subjectFecId(null);
             self.subjectName(null);
             self.subjectOfficeSought(null);
-            self.commissionedBy(null);
-            self.committeeTreasurer(null);
+            self.sponsoredBy(null);
+            self.sponsorCommitteeTreasurer(null);
             self.purchases([new PurchaseModel()]);
 
             if (!Modernizr.input.placeholder) {
@@ -213,10 +216,20 @@ function evaluateYesNo (value) {
         };
         self.matchCommitteeToFecId = function() {
             try {
-                var fecId = typeaheads.committees[self.commissionedBy()];
-                if (fecId === null) {
-                    self.committeeFecId(fecId);
-                    return self.committeeFecId;
+                var fecId = typeaheads.committees[self.sponsoredBy()];
+                if (fecId !== null) {
+                    self.sponsorFecId(fecId);
+                    return self.sponsorFecId;
+                }
+            }
+            catch(e){return null;}
+        };
+        self.matchSponsorCommitteeToFecId = function() {
+            try {
+                var fecId = typeaheads.committees[self.sponsorCommittee()];
+                if (fecId !== null) {
+                    self.sponsorCommitteeFecId(fecId);
+                    return self.sponsorCommitteeFecId;
                 }
             }
             catch(e){return null;}
@@ -241,7 +254,7 @@ function evaluateYesNo (value) {
         $('input[name=stationCallsign]').typeahead({
             source: typeaheads.callsigns
         });
-        $('input[name=commissionerCommittee],input[name=commissionedBy]').typeahead({
+        $('input[name=sponsorCommittee],input[name=sponsoredBy]').typeahead({
             minLength: 2,
             source: function(query, callback) {
                 callback(committee_names);
@@ -254,7 +267,7 @@ function evaluateYesNo (value) {
             }
         };
         $('input[name=subjectName]').typeahead(candidateTypeaheadConfig);
-        $('input[name=commissionerCandidate]').typeahead(candidateTypeaheadConfig);
+        $('input[name=sponsorCandidate]').typeahead(candidateTypeaheadConfig);
         $('input[name=officeSought]').typeahead({
             source: ["U.S. Senate", "U.S. House of Representatives", "President of the United States", "Governor of "]
         });
