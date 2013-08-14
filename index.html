@@ -68,42 +68,6 @@
                 })();
             };
         </script>
-
-        <script type="text/html" id="xml-template">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;payload&gt;
-    &lt;station&gt;
-        &lt;callsign&gt;<span data-bind="text: stationCallsign"></span>&lt;/callsign&gt;
-    &lt;/station&gt;
-    &lt;purchase&gt;
-        &lt;isApproved&gt;<span data-bind="text: purchaseApproved"></span>&lt;/isApproved&gt;
-    &lt;/purchase&gt;
-    &lt;contract&gt;
-        &lt;amount&gt;<span data-bind="text: contractAmount"></span>&lt;/amount&gt;
-    &lt;/contract&gt;
-    &lt;advertiser&gt;
-        &lt;name&gt;<span data-bind="text: commissionedBy"></span>&lt;/name&gt;
-        &lt;contact&gt;
-            &lt;name&gt;<span data-bind="text: commissionedBy"></span>&lt;/name&gt;
-            &lt;address&gt;&lt;![CDATA[<span data-bind="text: commissionerContactAddress"></span>]]&gt;&lt;/address&gt;
-            &lt;phone&gt;<span data-bind="text: commissionerContactPhone"></span>&lt;/phone&gt;
-        &lt;/contact&gt;
-    &lt;/advertiser&gt;
-    &lt;advertisement&gt;
-        &lt;subject&gt;<span data-bind="text: advertisementSubject"></span>&lt;/subject&gt;
-        &lt;isByCandidate&gt;<span data-bind="text: isByCandidate"></span>&lt;/isByCandidate&gt;
-    &lt;/advertisement&gt;
-    &lt;subject&gt;
-        &lt;name&gt;<span data-bind="text: subjectName"></span>&lt;/name&gt;
-        &lt;fecId&gt;<span data-bind="text: matchSubjectToFecId()"></span>&lt;/fecId&gt;
-        &lt;officeSought&gt;<span data-bind="text: subjectOfficeSought"></span>&lt;/officeSought&gt;
-    &lt;/subject&gt;
-    &lt;committee&gt;
-        &lt;name&gt;<span data-bind="text: commissionedBy"></span>&lt;/name&gt;
-        &lt;treasurer&gt;<span data-bind="text: committeeTreasurer"></span>&lt;/treasurer&gt;
-        &lt;fecId&gt;<span data-bind="text: matchCommitteeToFecId()"></span>&lt;/fecId&gt;
-    &lt;/committee&gt;
-&lt;/payload&gt;</script>
-
     </head>
     <body>
         <div class="sf-header">
@@ -118,7 +82,7 @@
                 <p class="lead">Demo xplainer graph. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Excepturi, officia, ratione, eius architecto totam ipsum tenetur explicabo rem nihil veniam animi nobis expedita unde consequuntur assumenda ipsam deserunt deleniti perspiciatis.</p>
                 <div class="row">
                     <div id="app-nav" class="span3">
-                        <p>The example data comes from <a target="_new" href="http://politicaladsleuth.com/political-files/d048f5d0-ee8e-4e29-a49b-1ea97487dd4c/">an 2013 ad buy</a> at WABC-TV in New York City.</p>
+                        <p>The example data comes from <a target="_blank" href="http://politicaladsleuth.com/political-files/d048f5d0-ee8e-4e29-a49b-1ea97487dd4c/">an 2013 ad buy</a> at WABC-TV in New York City.</p>
                         <ul class="unstyled">
                             <li>
                                 <button data-toggle="modal" data-bind="click: loadExampleData" class="btn btn-primary" type="button">Load Example Data</button>
@@ -136,9 +100,15 @@
                                         <legend>Purchase information</legend>
                                         <label class="control-label" for="station_callsign">Station Callsign</label>
                                         <input name="station_callsign" id="station_callsign" class="input-small" type="text" placeholder="XXXX" required data-bind="value: stationCallsign">
-                                        <label class="checkbox" for="purchase_approved">
-                                            <input name="purchase_approved" id="purchase_approved" type="checkbox" value="purchase_approved"  data-bind="checked: purchaseApproved"> Was the request to purchase broadcast time accepted?
-                                        </label>
+                                        <fieldset>
+                                            <label>Was the request to purchase broadcast time accepted?</label>
+                                            <label class="radio inline" for="purchaseApprovedYes">
+                                                <input name="purchase_approved" id="purchaseApprovedYes" type="radio" value="yes"  data-bind="checked: purchaseApproved" required> Yes
+                                            </label>
+                                            <label class="radio inline" for="purchaseApprovedNo">
+                                                <input name="purchase_approved" id="purchaseApprovedNo" type="radio" value="no"  data-bind="checked: purchaseApproved" required> No
+                                            </label>
+                                        </fieldset>
                                         <label class="control-label" for="contract_amount">Total Amount</label>
                                         <div class="input-prepend">
                                             <span class="add-on">$</span>
@@ -150,15 +120,22 @@
                                 <div class="span4 offset1">
                                     <fieldset>
                                         <legend title="Candidate, Issue, or&nbsp;Election">Subject of ad</legend>
-                                        <label class="checkbox">
-                                            <input type="checkbox" name="refersToCandidate" id="refersToCandidate" data-bind="checked: refersToCandidate" >Does this ad refer to any candidate for office?
-                                        </label>
-                                        <label class="control-label" for="subject_name" ><strong><span data-bind="text: refersToCandidate() ? 'Candidate' : 'Issue or Election' ">&nbsp;</span> </strong>name</label>
+                                        <fieldset>
+                                            <label>Does this ad refer to any candidate for office?</label>
+                                            <label class="radio inline">
+                                                <input type="radio" name="refersToCandidate" value="yes" id="refersToCandidateYes" data-bind="checked: refersToCandidate" required> Yes
+                                            </label>
+                                            <label class="radio inline">
+                                                <input type="radio" name="refersToCandidate" value="no" id="refersToCandidateNo" data-bind="checked: refersToCandidate" required> No
+                                            </label>
+                                        </fieldset>
+                                        <label class="control-label" for="subjectName" ><strong><span data-bind="text: doesReferToCandidate() ? 'Candidate' : 'Issue or Election' ">Subject</span> </strong>name</label>
                                         <input name="subject_name" id="subjectName" class="span4" type="text" placeholder="Candidate, issue, or election name" required data-bind="value: subjectName">
                                         <input type="hidden" name="subject_fec_id" data-bind="value: matchSubjectToFecId()">
-                                        <div id="form_candidate_extras" data-bind='visible: refersToCandidate()'>
+                                        <div id="form_candidate_extras" data-bind='visible: doesReferToCandidate()'>
                                             <label class="control-label" for="office_sought">Office sought by candidate</label>
-                                            <input name="office_sought" id="office_sought" class="span4" type="text" placeholder="Enter office sought" data-bind="value: subjectOfficeSought, attr: { required: refersToCandidate() }">
+                                            <input name="office_sought" id="office_sought" class="span4" type="text" placeholder="Enter office sought" data-bind="value: subjectOfficeSought,
+                                             attr: { required: doesReferToCandidate() }, enable: doesReferToCandidate()">
                                         </div>
                                     </fieldset>
                                 </div>
@@ -166,37 +143,43 @@
                             <fieldset>
                                 <legend>Ad Sponsor Details</legend>
                                 <p class="text-warning">Enter information about the <em>sponsor</em>, not the media buyer.</p>
-                                <label class="checkbox">
-                                    <input type="checkbox" name="byCandidateOrCommittee" id="byCandidateOrCommittee" data-bind="checked: commissionedByCandidateOrCommittee" >Was this ad purchased by or on behalf of a candidate, or by or on behalf of their authorized political committee?
-                                </label>
-                                <div data-bind="visible: commissionedByCandidateOrCommittee()">
+                                <fieldset>
+                                    <label>Was this ad purchased by or on behalf of a candidate, or by or on behalf of their authorized political committee?</label>
+                                    <label class="radio inline">
+                                        <input type="radio" name="byCandidateOrCommittee" value="yes" id="byCandidateOrCommitteeYes" data-bind="checked: byCandidateOrCommittee" required > Yes
+                                    </label>
+                                    <label class="radio inline">
+                                        <input type="radio" name="byCandidateOrCommittee" value="no" id="byCandidateOrCommitteeNo" data-bind="checked: byCandidateOrCommittee" required > No
+                                    </label>
+                                </fieldset>
+                                <div data-bind="visible: isByCandidateOrCommittee()">
                                         <label class="control-label" for="commissionerCandidate">Candidate Name</label>
-                                        <input autocomplete="on" name="commissionerCandidate" id="commissionerCandidate" class="span4" type="text" placeholder="Enter the candidate name" required data-bind="value: commissionerCandidate, attr: { required: commissionedByCandidateOrCommittee }">
+                                        <input autocomplete="on" name="commissionerCandidate" id="commissionerCandidate" class="span4" type="text" placeholder="Enter the candidate name" required data-bind="value: commissionerCandidate, attr: { required: isByCandidateOrCommittee }, enable: isByCandidateOrCommittee">
                                         <label class="control-label" for="commissionerCommittee">Candidate's Authorized Committee</label>
-                                        <input name="commissionerCommittee" id="commissionerCommittee" class="span4" type="text" placeholder="Enter name of the committee" data-bind="value: commissionerCommittee, attr: { required: commissionedByCandidateOrCommittee }">
+                                        <input name="commissionerCommittee" id="commissionerCommittee" class="span4" type="text" placeholder="Enter name of the committee" data-bind="value: commissionerCommittee, attr: { required: isByCandidateOrCommittee }, enable: isByCandidateOrCommittee">
                                         <label class="control-label" for="committeeTreasurer">Treasurer</label>
-                                        <input name="committeeTreasurer" id="committeeTreasurer" class="span4" type="text" placeholder="Enter name of the committee's treasurer" data-bind="value: committeeTreasurer, attr: { required: commissionedByCandidateOrCommittee }">
+                                        <input name="committeeTreasurer" id="committeeTreasurer" class="span4" type="text" placeholder="Enter name of the committee's treasurer" data-bind="value: committeeTreasurer, attr: { required: isByCandidateOrCommittee }, enable: isByCandidateOrCommittee">
                                 </div>
-                                <div class="row" data-bind="visible: commissionedByCandidateOrCommittee() != true">
+                                <div class="row" data-bind="visible: !isByCandidateOrCommittee()">
                                     <div class="span4">
                                         <label class="control-label" for="commissionedBy">Sponsor Organization</label>
-                                        <input autocomplete="on" name="commissionedBy" id="commissionedBy" class="span4" type="text" placeholder="Name of organization commissioning ad" data-bind="value: commissionedBy, attr: { required: !commissionedByCandidateOrCommittee }">
+                                        <input autocomplete="on" name="commissionedBy" id="commissionedBy" class="span4" type="text" placeholder="Name of organization commissioning ad" data-bind="value: commissionedBy, attr: { required: !isByCandidateOrCommittee() }, disable: isByCandidateOrCommittee">
                                         <input type="hidden" name="committeeFecId" data-bind="value: matchCommitteeToFecId()">
                                         <label class="control-label">Contact Address</label>
-                                        <textarea autocomplete="on" id="advertiser_contact_address" name="advertiser_contact_address" class="span4" rows="4" placeholder="Address line 1, Address line 2, City, State Zipcode"  data-bind="value: commissionerContactAddress, attr: { required: !commissionedByCandidateOrCommittee }"></textarea>
+                                        <textarea id="advertiser_contact_address" name="advertiser_contact_address" class="span4" rows="4" placeholder="Address line 1, Address line 2, City, State Zipcode"  data-bind="value: commissionerContactAddress, attr: { required: !isByCandidateOrCommittee() }, disable: isByCandidateOrCommittee"></textarea>
                                         <label class="control-label" for="advertiser_contact_phone">Contact Phone Number</label>
-                                        <input autocomplete="on" name="advertiser_contact_phone" id="advertiser_contact_phone" class="span4" type="tel" placeholder="XXX-XXX-XXXX ext. 2121" data-bind="value: commissionerContactPhone, attr: { required: !commissionedByCandidateOrCommittee }">
+                                        <input autocomplete="on" name="advertiser_contact_phone" id="advertiser_contact_phone" class="span4" type="tel" placeholder="XXX-XXX-XXXX ext. 2121" data-bind="value: commissionerContactPhone, attr: { required: !isByCandidateOrCommittee() }, disable: isByCandidateOrCommittee">
                                     </div>
                                     <div class="span4 offset1">
-                                        <label class="control-label" for="committee_treasurer">Principals</label>
-                                        <textarea name="principals" id="principals" class="span4" rows="10" data-bind="value: principals, attr: { required: !commissionedByCandidateOrCommittee }" placeholder="A list of the chief executive officers or members of the executive committee or of the board of directors. One per line."></textarea>
+                                        <label class="control-label" for="principals">Principals</label>
+                                        <textarea name="principals" id="principals" class="span4" rows="10" data-bind="value: principals, attr: { required: !isByCandidateOrCommittee() }, disable: isByCandidateOrCommittee" placeholder="A list of the chief executive officers or members of the executive committee or of the board of directors. One per line."></textarea>
                                     </div>
                                 </div>
                             </fieldset>
                             <div>
                                 <fieldset class="form-inline">
                                     <legend>Add dates and times of communications purchased</legend>
-                                    <div id="purchases"data-bind='foreach: purchases'>
+                                    <div id="purchases" data-bind='foreach: purchases'>
                                         <div class="purchase-detail row">
                                             <div class="vert-stripe span4">
                                                 <label>
@@ -207,11 +190,13 @@
                                                     To:
                                                     <input name="end-date[]" data-bind="value: endDate" type="text" class="input-mini" placeholder="1/1/2012">
                                                 </label>
-                                                <label>
-                                                    Timeslot:
-                                                    <input name="begin-time[]" data-bind="value: beginTime" type="text" class="input-mini" placeholder="4:00pm">
-                                                    <input name="end-time[]" data-bind="value: endTime" type="text" class="input-mini" placeholder="5:00pm">
-                                                </label>
+                                                <fieldset>
+                                                    <label>
+                                                        Timeslot:
+                                                    </label>
+                                                        <input name="begin-time[]" data-bind="value: beginTime" type="text" class="input-mini" placeholder="4:00pm">
+                                                        <input name="end-time[]" data-bind="value: endTime" type="text" class="input-mini" placeholder="5:00pm">
+                                                </fieldset>
                                             </div>
                                             <div class="span5">
                                                 <div class="input-prepend">
@@ -279,7 +264,7 @@
             </div>
             <div class="modal-body">
                 <p>Something to drive home point about ease of generating <abbr title="eXtensible Markup Language">XML</abbr> or<abbr title="JavaScript Object Notation">JSON</abbr> from ad systems.</p>
-                <pre class="pre-scrollable"><code class="language-javascript terminal" data-bind="text: ko.toJSON($root, function (key, value) { return (key == 'advertisementSubjectOptions') ? undefined : value; }, 4)"></code></pre>
+                <pre class="pre-scrollable"><code class="language-javascript terminal" data-bind="text: outputJSON()"></code></pre>
 
             </div>
             <div class="modal-footer">

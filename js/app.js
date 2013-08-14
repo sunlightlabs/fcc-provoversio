@@ -9,20 +9,51 @@ require.config(app_conf);
 require(['jquery', 'json2', 'knockout-2.3.0', 'underscore-min', 'data/typeaheads',
         'modernizr.min', 'sfapp/js/bootstrap.min', 'sfapp/js/sfapp'],
 function($, JSON, ko, _, typeaheads) {
-    var committee_names, candidate_names, data_uri, subject_selector, candidate_check_selector;
+    var committee_names, candidate_names, cachedExampleJSON;
+
+function trimForExport (key, value) {
+    // if (value === null) return undefined;
+    switch (key) {
+        case "advertisementSubjectOptions":
+        case "doesReferToCandidate":
+        case "principals":
+        case "isByCandidateOrCommittee":
+            return undefined;
+        case "purchaseApproved":
+        case "refersToCandidate":
+        case "byCandidateOrCommittee":
+            if (value === "yes") {
+                return true;
+            }
+            else {
+                return false;
+            }
+            break;
+        default:
+            return value;
+    }
+}
+
+function evaluateYesNo (value) {
+    if (value === "yes") {
+        return true;
+    }
+    else if (value === "no") {
+        return false;
+    }
+    return undefined;
+}
 
 // http://politicaladsleuth.com/political-files/d048f5d0-ee8e-4e29-a49b-1ea97487dd4c/
     var exampleData = {
         "contractNumber": "8533",
         "stationCallsign": "WABC-TV",
-        "purchaseApproved": true,
+        "purchaseApproved": "yes",
         "contractAmount": 8900.00,
-        "commissionedByCandidateOrCommittee": true,
+        "byCandidateOrCommittee": "yes",
         "commissionerCandidate": "PALLONE, FRANK JR",
         "commissionerCommittee": "PALLONE FOR SENATE",
-        "commissionerContactAddress": "",
-        "commissionerContactPhone": "000-555-1010",
-        "refersToCandidate": true,
+        "refersToCandidate": "yes",
         "subjectName": "PALLONE, FRANK JR",
         "subjectOfficeSought": "U.S. Senate",
         "commissionedBy": "PALLONE FOR SENATE",
@@ -73,9 +104,16 @@ function($, JSON, ko, _, typeaheads) {
     function FormViewModel() {
         var self = this;
         self.stationCallsign = ko.observable();
-        self.purchaseApproved = ko.observable(true);
+        self.purchaseApproved = ko.observable();
         self.contractAmount = ko.observable();
-        self.commissionedByCandidateOrCommittee = ko.observable(false);
+        self.byCandidateOrCommittee = ko.observable();
+        self.isByCandidateOrCommittee = ko.computed(function() {
+            var val =  evaluateYesNo(self.byCandidateOrCommittee());
+            if (val === undefined) {
+                return false;
+            }
+            return val;
+        });
         self.commissionerCandidate = ko.observable();
         self.commissionerCommittee = ko.observable();
         self.committeeTreasurer = ko.observable();
@@ -84,7 +122,10 @@ function($, JSON, ko, _, typeaheads) {
         self.commissionerContactPhone = ko.observable();
         self.advertisementSubjectOptions = ko.observableArray(['Candidate', 'Issue', 'Election']);
         self.advertisementSubject = ko.observable();
-        self.refersToCandidate = ko.observable(false);
+        self.refersToCandidate = ko.observable();
+        self.doesReferToCandidate = ko.computed(function() {
+            return evaluateYesNo(self.refersToCandidate());
+        });
         self.subjectFecId = ko.observable();
         self.subjectName = ko.observable();
         self.subjectOfficeSought = ko.observable();
@@ -93,7 +134,7 @@ function($, JSON, ko, _, typeaheads) {
         self.principals = ko.observable();
         self.principalsList = ko.computed(function() {
             var raw_input = self.principals();
-            if (raw_input == undefined) {
+            if (raw_input === undefined) {
                 return undefined;
             }
             var list = raw_input.split('\n');
@@ -103,20 +144,17 @@ function($, JSON, ko, _, typeaheads) {
         self.addPurchase = function () {
             self.purchases.push(new PurchaseModel());
         };
-        self.trimForExport = function (key, value) {
-            if (key == "advertisementSubjectOptions") {
-                return undefined;
-            }
-            return value;
-        };
         self.exampleJSON = function() {
-            return ko.toJSON(exampleData, null, 4);
+            if (cachedExampleJSON === undefined) {
+                cachedExampleJSON = JSON.stringify(exampleData, trimForExport, 4);
+            }
+            return cachedExampleJSON;
         };
         self.loadExampleData = function() {
             self.stationCallsign(exampleData.stationCallsign);
             self.purchaseApproved(exampleData.purchaseApproved);
             self.contractAmount(exampleData.contractAmount);
-            self.commissionedByCandidateOrCommittee(exampleData.commissionedByCandidateOrCommittee);
+            self.byCandidateOrCommittee(exampleData.byCandidateOrCommittee);
             self.commissionerCandidate(exampleData.commissionerCandidate);
             self.commissionerCommittee(exampleData.commissionerCommittee);
             self.committeeTreasurer(exampleData.committeeTreasurer);
@@ -135,14 +173,14 @@ function($, JSON, ko, _, typeaheads) {
             self.stationCallsign(null);
             self.purchaseApproved(true);
             self.contractAmount(null);
-            self.commissionedByCandidateOrCommittee(false);
+            self.byCandidateOrCommittee(false);
             self.commissionedBy(null);
             self.commissionerContactAddress(null);
             self.commissionerContactPhone(null);
             self.commissionerCandidate(null);
             self.commissionerCommittee(null);
             self.advertisementSubject(null);
-            self.refersToCandidate(false);
+            self.refersToCandidate(null);
             self.subjectFecId(null);
             self.subjectName(null);
             self.subjectOfficeSought(null);
@@ -157,13 +195,17 @@ function($, JSON, ko, _, typeaheads) {
                 });
             }
         };
+        self.outputJSON = function() {
+            return ko.toJSON(self, trimForExport, 4);
+        };
         self.submitForm = function(formElement) {
+            $('input,textarea,select').filter(':disabled').val(null);
             $('#form-submit-modal').modal();
         };
         self.matchCommitteeToFecId = function() {
             try {
                 var fecId = typeaheads.committees[self.commissionedBy()];
-                if (fecId != null) {
+                if (fecId === null) {
                     self.committeeFecId(fecId);
                     return self.committeeFecId;
                 }
@@ -173,7 +215,7 @@ function($, JSON, ko, _, typeaheads) {
         self.matchSubjectToFecId = function() {
             try {
                 var fecId = typeaheads.candidates[self.subjectName()];
-                if (fecId != null) {
+                if (fecId !== null) {
                     self.subjectFecId(fecId);
                     return self.subjectFecId;
                 }
@@ -216,19 +258,19 @@ function($, JSON, ko, _, typeaheads) {
         if (!Modernizr.input.placeholder) {
             var formpl = '#fcc_form [placeholder]';
             $(formpl).each(function(event) {
-                if ($(this).val() == '') // if field is empty
+                if ($(this).val() === '') // if field is empty
                 {
                     $(this).val( $(this).attr('placeholder') );
                 }
             });
             $(document).on('focus', formpl, function(event) {
-                if ($(this).val() == $(this).attr('placeholder'))
+                if ($(this).val() === $(this).attr('placeholder'))
                 {
                     $(this).val('');
                 }
             });
             $(document).on('blur', formpl, function(event) {
-                if ($(this).val() == '' || $(this).val() == $(this).attr('placeholder'))
+                if ($(this).val() === '' || $(this).val() === $(this).attr('placeholder'))
                 {
                     $(this).val($(this).attr('placeholder'));
                 }
@@ -236,7 +278,7 @@ function($, JSON, ko, _, typeaheads) {
             $(document).on('submit', 'form', function(event) {
                 $(this).find('[placeholder]').each(function()
                 {
-                    if ($(this).val() == $(this).attr('placeholder'))
+                    if ($(this).val() === $(this).attr('placeholder'))
                     {
                         $(this).val('');
                     }
