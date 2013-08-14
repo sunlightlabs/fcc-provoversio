@@ -30,7 +30,13 @@ function trimForExport (key, value) {
             }
             break;
         default:
-            return value;
+            break;
+    }
+    if (value === "") {
+        return undefined;
+    }
+    else {
+        return value;
     }
 }
 
@@ -199,7 +205,10 @@ function evaluateYesNo (value) {
             return ko.toJSON(self, trimForExport, 4);
         };
         self.submitForm = function(formElement) {
-            $('input,textarea,select').filter(':disabled').val(null);
+            $(formElement).find('input,textarea,select').filter(':disabled').each(function(index, el) {
+                var elName = $(el).attr('name');
+                self[elName](undefined);
+            });
             $('#form-submit-modal').modal();
         };
         self.matchCommitteeToFecId = function() {
@@ -229,7 +238,7 @@ function evaluateYesNo (value) {
     ko.applyBindings(appFormView);
 
     function attach_typeaheads () {
-        $('input[name=station_callsign]').typeahead({
+        $('input[name=stationCallsign]').typeahead({
             source: typeaheads.callsigns
         });
         $('input[name=commissionerCommittee],input[name=commissionedBy]').typeahead({
@@ -244,9 +253,9 @@ function evaluateYesNo (value) {
                 callback(candidate_names);
             }
         };
-        $('input[name=subject_name]').typeahead(candidateTypeaheadConfig);
+        $('input[name=subjectName]').typeahead(candidateTypeaheadConfig);
         $('input[name=commissionerCandidate]').typeahead(candidateTypeaheadConfig);
-        $('input[name=office_sought]').typeahead({
+        $('input[name=officeSought]').typeahead({
             source: ["U.S. Senate", "U.S. House of Representatives", "President of the United States", "Governor of "]
         });
     }

@@ -98,23 +98,22 @@
                                 <div class="span4">
                                     <fieldset>
                                         <legend>Purchase information</legend>
-                                        <label class="control-label" for="station_callsign">Station Callsign</label>
-                                        <input name="station_callsign" id="station_callsign" class="input-small" type="text" placeholder="XXXX" required data-bind="value: stationCallsign">
+                                        <label for="stationCallsign">Station Callsign</label>
+                                        <input name="stationCallsign" id="stationCallsign" class="input-small" type="text" placeholder="XXXX" required data-bind="value: stationCallsign">
                                         <fieldset>
                                             <label>Was the request to purchase broadcast time accepted?</label>
                                             <label class="radio inline" for="purchaseApprovedYes">
-                                                <input name="purchase_approved" id="purchaseApprovedYes" type="radio" value="yes"  data-bind="checked: purchaseApproved" required> Yes
+                                                <input name="purchaseApproved" id="purchaseApprovedYes" type="radio" value="yes"  data-bind="checked: purchaseApproved" required> Yes
                                             </label>
                                             <label class="radio inline" for="purchaseApprovedNo">
-                                                <input name="purchase_approved" id="purchaseApprovedNo" type="radio" value="no"  data-bind="checked: purchaseApproved" required> No
+                                                <input name="purchaseApproved" id="purchaseApprovedNo" type="radio" value="no"  data-bind="checked: purchaseApproved" required> No
                                             </label>
                                         </fieldset>
-                                        <label class="control-label" for="contract_amount">Total Amount</label>
+                                        <label for="contractAmount">Total Amount</label>
                                         <div class="input-prepend">
                                             <span class="add-on">$</span>
-                                            <input name="contract_amount" id="contract_amount" class="input-small" type="number" placeholder="0000.00" required data-bind="value: contractAmount">
+                                            <input name="contractAmount" id="contractAmount" class="input-small" type="number" placeholder="0000.00" required data-bind="value: contractAmount">
                                         </div>
-                                        <!-- <span class="help-block">The total amount charged for the broadcast time.</span> -->
                                     </fieldset>
                                 </div>
                                 <div class="span4 offset1">
@@ -129,13 +128,14 @@
                                                 <input type="radio" name="refersToCandidate" value="no" id="refersToCandidateNo" data-bind="checked: refersToCandidate" required> No
                                             </label>
                                         </fieldset>
-                                        <label class="control-label" for="subjectName" ><strong><span data-bind="text: doesReferToCandidate() ? 'Candidate' : 'Issue or Election' ">Subject</span> </strong>name</label>
-                                        <input name="subject_name" id="subjectName" class="span4" type="text" placeholder="Candidate, issue, or election name" required data-bind="value: subjectName">
-                                        <input type="hidden" name="subject_fec_id" data-bind="value: matchSubjectToFecId()">
+                                        <label for="subjectName" ><strong><span data-bind="text: doesReferToCandidate() ? 'Candidate' : 'Issue or Election' ">Subject</span> </strong>name</label>
+                                        <input name="subjectName" id="subjectName" class="span4" type="text" placeholder="Candidate, issue, or election name" required data-bind="value: subjectName">
+                                        <input type="hidden" name="subjectFecId" data-bind="value: matchSubjectToFecId()">
                                         <div id="form_candidate_extras" data-bind='visible: doesReferToCandidate()'>
-                                            <label class="control-label" for="office_sought">Office sought by candidate</label>
-                                            <input name="office_sought" id="office_sought" class="span4" type="text" placeholder="Enter office sought" data-bind="value: subjectOfficeSought,
+                                            <label for="subjectOfficeSought">Office sought by candidate</label>
+                                            <input name="subjectOfficeSought" id="subjectOfficeSought" class="span4" type="text" placeholder="Enter office sought" data-bind="value: subjectOfficeSought,
                                              attr: { required: doesReferToCandidate() }, enable: doesReferToCandidate()">
+                                             <label for=""></label>
                                         </div>
                                     </fieldset>
                                 </div>
@@ -153,25 +153,25 @@
                                     </label>
                                 </fieldset>
                                 <div data-bind="visible: isByCandidateOrCommittee()">
-                                        <label class="control-label" for="commissionerCandidate">Candidate Name</label>
+                                        <label for="commissionerCandidate">Candidate Name</label>
                                         <input autocomplete="on" name="commissionerCandidate" id="commissionerCandidate" class="span4" type="text" placeholder="Enter the candidate name" required data-bind="value: commissionerCandidate, attr: { required: isByCandidateOrCommittee }, enable: isByCandidateOrCommittee">
-                                        <label class="control-label" for="commissionerCommittee">Candidate's Authorized Committee</label>
+                                        <label for="commissionerCommittee">Candidate's Authorized Committee</label>
                                         <input name="commissionerCommittee" id="commissionerCommittee" class="span4" type="text" placeholder="Enter name of the committee" data-bind="value: commissionerCommittee, attr: { required: isByCandidateOrCommittee }, enable: isByCandidateOrCommittee">
-                                        <label class="control-label" for="committeeTreasurer">Treasurer</label>
+                                        <label for="committeeTreasurer">Treasurer</label>
                                         <input name="committeeTreasurer" id="committeeTreasurer" class="span4" type="text" placeholder="Enter name of the committee's treasurer" data-bind="value: committeeTreasurer, attr: { required: isByCandidateOrCommittee }, enable: isByCandidateOrCommittee">
                                 </div>
                                 <div class="row" data-bind="visible: !isByCandidateOrCommittee()">
                                     <div class="span4">
-                                        <label class="control-label" for="commissionedBy">Sponsor Organization</label>
+                                        <label for="commissionedBy">Sponsor Organization</label>
                                         <input autocomplete="on" name="commissionedBy" id="commissionedBy" class="span4" type="text" placeholder="Name of organization commissioning ad" data-bind="value: commissionedBy, attr: { required: !isByCandidateOrCommittee() }, disable: isByCandidateOrCommittee">
                                         <input type="hidden" name="committeeFecId" data-bind="value: matchCommitteeToFecId()">
-                                        <label class="control-label">Contact Address</label>
-                                        <textarea id="advertiser_contact_address" name="advertiser_contact_address" class="span4" rows="4" placeholder="Address line 1, Address line 2, City, State Zipcode"  data-bind="value: commissionerContactAddress, attr: { required: !isByCandidateOrCommittee() }, disable: isByCandidateOrCommittee"></textarea>
-                                        <label class="control-label" for="advertiser_contact_phone">Contact Phone Number</label>
-                                        <input autocomplete="on" name="advertiser_contact_phone" id="advertiser_contact_phone" class="span4" type="tel" placeholder="XXX-XXX-XXXX ext. 2121" data-bind="value: commissionerContactPhone, attr: { required: !isByCandidateOrCommittee() }, disable: isByCandidateOrCommittee">
+                                        <label>Contact Address</label>
+                                        <textarea id="commissionerContactAddress" name="commissionerContactAddress" class="span4" rows="4" placeholder="Address line 1, Address line 2, City, State Zipcode"  data-bind="value: commissionerContactAddress, attr: { required: !isByCandidateOrCommittee() }, disable: isByCandidateOrCommittee"></textarea>
+                                        <label for="commissionerContactPhone">Contact Phone Number</label>
+                                        <input autocomplete="on" name="commissionerContactPhone" id="commissionerContactPhone" class="span4" type="tel" placeholder="XXX-XXX-XXXX ext. 2121" data-bind="value: commissionerContactPhone, attr: { required: !isByCandidateOrCommittee() }, disable: isByCandidateOrCommittee">
                                     </div>
                                     <div class="span4 offset1">
-                                        <label class="control-label" for="principals">Principals</label>
+                                        <label for="principals">Principals</label>
                                         <textarea name="principals" id="principals" class="span4" rows="10" data-bind="value: principals, attr: { required: !isByCandidateOrCommittee() }, disable: isByCandidateOrCommittee" placeholder="A list of the chief executive officers or members of the executive committee or of the board of directors. One per line."></textarea>
                                     </div>
                                 </div>
@@ -184,27 +184,27 @@
                                             <div class="vert-stripe span4">
                                                 <label>
                                                     From:
-                                                    <input name="start-date[]" data-bind="value: startDate" type="text" class="input-mini" placeholder="1/1/2012">
+                                                    <input name="startDate[]" data-bind="value: startDate" type="text" class="input-mini" placeholder="1/1/2012">
                                                 </label>
                                                 <label>
                                                     To:
-                                                    <input name="end-date[]" data-bind="value: endDate" type="text" class="input-mini" placeholder="1/1/2012">
+                                                    <input name="endDate[]" data-bind="value: endDate" type="text" class="input-mini" placeholder="1/1/2012">
                                                 </label>
                                                 <fieldset>
                                                     <label>
                                                         Timeslot:
                                                     </label>
-                                                        <input name="begin-time[]" data-bind="value: beginTime" type="text" class="input-mini" placeholder="4:00pm">
-                                                        <input name="end-time[]" data-bind="value: endTime" type="text" class="input-mini" placeholder="5:00pm">
+                                                        <input name="beginTime[]" data-bind="value: beginTime" type="text" class="input-mini" placeholder="4:00pm">
+                                                        <input name="endTime[]" data-bind="value: endTime" type="text" class="input-mini" placeholder="5:00pm">
                                                 </fieldset>
                                             </div>
                                             <div class="span5">
                                                 <div class="input-prepend">
                                                     <span class="add-on">$</span>
-                                                    <input name="ad-rate[]" data-bind="value: adRate" type="text" class="input-mini" placeholder="00.00">
+                                                    <input name="adRate[]" data-bind="value: adRate" type="text" class="input-mini" placeholder="00.00">
                                                 </div>
-                                                <input name="number-spots[]" data-bind="value: numberSpots" type="text" class="input-mini" placeholder="# Spots" >
-                                                <input name="time-class[]" data-bind="value: timeClass" type="text" class="input-small" placeholder="Class of time" >
+                                                <input name="numberSpots[]" data-bind="value: numberSpots" type="text" class="input-mini" placeholder="# Spots" >
+                                                <input name="timeClass[]" data-bind="value: timeClass" type="text" class="input-small" placeholder="Class of time" >
                                             </div>
                                         </div>
                                     </div>
