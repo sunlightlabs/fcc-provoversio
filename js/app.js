@@ -1,12 +1,12 @@
 var app_conf = {
     baseUrl: 'js/lib',
     paths: { data: '../data', jquery: 'jquery-1.10.2.min', sfapp: '../../sfapp' },
-    shim: { "underscore-min": { exports: '_' }, "json2": {exports:"JSON"}, "knockout-2.3.0": { deps: ["json2"], exports: "ko"},
+    shim: { "underscore-min": { exports: '_' }, "json2.min": {exports:"JSON"}, "knockout-2.3.0": { deps: ["json2.min"], exports: "ko"},
             "sfapp/js/bootstrap.min": ["jquery"], "sfapp/js/sfapp": ["jquery",  "sfapp/js/bootstrap.min"], "jquery.validate.min": ["jquery"] }
 };
 require.config(app_conf);
 
-require(['jquery', 'json2', 'knockout-2.3.0', 'underscore-min', 'data/typeaheads',
+require(['jquery', 'json2.min', 'knockout-2.3.0', 'underscore-min', 'data/typeaheads',
         'modernizr.min', 'sfapp/js/bootstrap.min', 'sfapp/js/sfapp', "jquery.validate.min"],
 function($, JSON, ko, _, typeaheads) {
     var appFormView, committee_names, candidate_names, cachedExampleJSON;
@@ -355,7 +355,6 @@ function evaluateYesNo (value) {
                 timeClass: {required: false}
             },
             submitHandler: function(form) {
-                console.log('validated, opening modal.');
                 cleanAndPresentForm(form);
                 return false;
             }
