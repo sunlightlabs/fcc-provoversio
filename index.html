@@ -142,7 +142,10 @@
                                             <label for="subjectOfficeSought">Office sought by candidate</label>
                                             <input name="subjectOfficeSought" id="subjectOfficeSought" class="span4" type="text" placeholder="Enter office sought" data-bind="value: subjectOfficeSought,
                                              attr: { required: doesReferToCandidate() }, enable: doesReferToCandidate()">
-                                             <label for=""></label>
+                                            <label for="subjectOfficeJurisdiction">Location of office sought</label>
+                                            <input name="subjectOfficeJurisdiction" id="subjectOfficeJurisdiction" class="span4" type="text" placeholder="State, District, Precinct, Municipality or municipality" data-bind="value: subjectOfficeJurisdiction,
+                                             attr: { required: doesReferToCandidate() }, enable: doesReferToCandidate()">
+                                             <span class="help-block">Enter the state, district, precinct, municipality, or applicable jurisdiction.</span>
                                         </div>
                                     </fieldset>
                                 </div>

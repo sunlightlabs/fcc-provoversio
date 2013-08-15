@@ -11,44 +11,44 @@ require(['jquery', 'json2.min', 'knockout-2.3.0', 'underscore-min', 'data/typeah
 function($, JSON, ko, _, typeaheads) {
     var appFormView, committee_names, candidate_names, cachedExampleJSON;
 
-function trimForExport (key, value) {
-    // if (value === null) return undefined;
-    switch (key) {
-        case "advertisementSubjectOptions":
-        case "doesReferToCandidate":
-        case "principals":
-        case "isByCandidateOrCommittee":
+    function trimForExport (key, value) {
+        // if (value === null) return undefined;
+        switch (key) {
+            case "advertisementSubjectOptions":
+            case "doesReferToCandidate":
+            case "principals":
+            case "isByCandidateOrCommittee":
+                return undefined;
+            case "purchaseApproved":
+            case "refersToCandidate":
+            case "byCandidateOrCommittee":
+                if (value === "yes") {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+                break;
+            default:
+                break;
+        }
+        if (value === "") {
             return undefined;
-        case "purchaseApproved":
-        case "refersToCandidate":
-        case "byCandidateOrCommittee":
-            if (value === "yes") {
-                return true;
-            }
-            else {
-                return false;
-            }
-            break;
-        default:
-            break;
+        }
+        else {
+            return value;
+        }
     }
-    if (value === "") {
+
+    function evaluateYesNo (value) {
+        if (value === "yes") {
+            return true;
+        }
+        else if (value === "no") {
+            return false;
+        }
         return undefined;
     }
-    else {
-        return value;
-    }
-}
-
-function evaluateYesNo (value) {
-    if (value === "yes") {
-        return true;
-    }
-    else if (value === "no") {
-        return false;
-    }
-    return undefined;
-}
 
 // http://politicaladsleuth.com/political-files/d048f5d0-ee8e-4e29-a49b-1ea97487dd4c/
     var exampleData = {
@@ -62,6 +62,7 @@ function evaluateYesNo (value) {
         "refersToCandidate": "yes",
         "subjectName": "PALLONE, FRANK JR",
         "subjectOfficeSought": "U.S. Senate",
+        "subjectOfficeJurisdiction": "New Jersey",
         "sponsoredBy": "PALLONE FOR SENATE",
         "sponsorCommitteeTreasurer": "Nichols, Peter D.",
         "purchases": [
@@ -136,6 +137,7 @@ function evaluateYesNo (value) {
         self.subjectFecId = ko.observable();
         self.subjectName = ko.observable();
         self.subjectOfficeSought = ko.observable();
+        self.subjectOfficeJurisdiction = ko.observable();
         self.sponsoredBy = ko.observable();
         self.sponsorFecId = ko.observable();
         self.principals = ko.observable();
@@ -176,6 +178,7 @@ function evaluateYesNo (value) {
             self.subjectFecId(exampleData.subjectFecId);
             self.subjectName(exampleData.subjectName);
             self.subjectOfficeSought(exampleData.subjectOfficeSought);
+            self.subjectOfficeJurisdiction(exampleData.subjectOfficeJurisdiction);
             self.sponsoredBy(exampleData.sponsoredBy);
             self.purchases(exampleData.purchases);
         };
@@ -195,6 +198,7 @@ function evaluateYesNo (value) {
             self.subjectFecId(null);
             self.subjectName(null);
             self.subjectOfficeSought(null);
+            self.subjectOfficeJurisdiction(null);
             self.sponsoredBy(null);
             self.sponsorCommitteeTreasurer(null);
             self.purchases([new PurchaseModel()]);
@@ -344,15 +348,6 @@ function evaluateYesNo (value) {
                     }
                 }
                 $(errorTarget).after(error);
-            },
-            rules : {
-                startDate: {required: false},
-                endDate: {required: false},
-                beginTime: {required: false},
-                endTime: {required: false},
-                adRate: {required: false},
-                numberSpots: {required: false},
-                timeClass: {required: false}
             },
             submitHandler: function(form) {
                 cleanAndPresentForm(form);
