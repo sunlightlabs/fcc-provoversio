@@ -2,14 +2,14 @@ var app_conf = {
     baseUrl: 'js/lib',
     paths: { data: '../data', jquery: 'jquery-1.10.2.min', sfapp: '../../sfapp' },
     shim: { "underscore-min": { exports: '_' }, "json2": {exports:"JSON"}, "knockout-2.3.0": { deps: ["json2"], exports: "ko"},
-            "sfapp/js/bootstrap.min": ["jquery"], "sfapp/js/sfapp": ["jquery",  "sfapp/js/bootstrap.min"] }
+            "sfapp/js/bootstrap.min": ["jquery"], "sfapp/js/sfapp": ["jquery",  "sfapp/js/bootstrap.min"], "jquery.validate.min": ["jquery"] }
 };
 require.config(app_conf);
 
 require(['jquery', 'json2', 'knockout-2.3.0', 'underscore-min', 'data/typeaheads',
-        'modernizr.min', 'sfapp/js/bootstrap.min', 'sfapp/js/sfapp'],
+        'modernizr.min', 'sfapp/js/bootstrap.min', 'sfapp/js/sfapp', "jquery.validate.min"],
 function($, JSON, ko, _, typeaheads) {
-    var committee_names, candidate_names, cachedExampleJSON;
+    var appFormView, committee_names, candidate_names, cachedExampleJSON;
 
 function trimForExport (key, value) {
     // if (value === null) return undefined;
@@ -150,6 +150,7 @@ function evaluateYesNo (value) {
         self.purchases = ko.observableArray([new PurchaseModel()]);
         self.addPurchase = function () {
             self.purchases.push(new PurchaseModel());
+            processPlaceholders();
         };
         self.exampleJSON = function() {
             if (cachedExampleJSON === undefined) {
@@ -158,6 +159,7 @@ function evaluateYesNo (value) {
             return cachedExampleJSON;
         };
         self.loadExampleData = function() {
+            self.resetForm();
             self.stationCallsign(exampleData.stationCallsign);
             self.purchaseApproved(exampleData.purchaseApproved);
             self.contractAmount(exampleData.contractAmount);
@@ -200,19 +202,14 @@ function evaluateYesNo (value) {
             if (!Modernizr.input.placeholder) {
                 var formpl = '#fcc_form [placeholder]';
                 $(formpl).each(function() {
-                    $(self).val( $(self).attr('placeholder') );
+                    setPlaceholderText(this);
                 });
+                $('#fcc_form p.text-error').remove();
             }
+            $('#fcc_form .text-error').removeClass('text-error');
         };
         self.outputJSON = function() {
             return ko.toJSON(self, trimForExport, 4);
-        };
-        self.submitForm = function(formElement) {
-            $(formElement).find('input,textarea,select').filter(':disabled').each(function(index, el) {
-                var elName = $(el).attr('name');
-                self[elName](undefined);
-            });
-            $('#form-submit-modal').modal();
         };
         self.matchCommitteeToFecId = function() {
             try {
@@ -246,7 +243,7 @@ function evaluateYesNo (value) {
         };
     }
 
-    var appFormView = new FormViewModel();
+    appFormView = new FormViewModel();
 
     ko.applyBindings(appFormView);
 
@@ -273,6 +270,13 @@ function evaluateYesNo (value) {
         });
     }
 
+    function setPlaceholderText (element) {
+        if ($(element).val() === '') // if field is empty
+        {
+            $(element).val( $(element).attr('placeholder') );
+        }
+    }
+
     function processPlaceholders () {
         /*
             Enable placeholders on browsers without native support
@@ -280,10 +284,7 @@ function evaluateYesNo (value) {
         if (!Modernizr.input.placeholder) {
             var formpl = '#fcc_form [placeholder]';
             $(formpl).each(function(event) {
-                if ($(this).val() === '') // if field is empty
-                {
-                    $(this).val( $(this).attr('placeholder') );
-                }
+                setPlaceholderText(this);
             });
             $(document).on('focus', formpl, function(event) {
                 if ($(this).val() === $(this).attr('placeholder'))
@@ -305,6 +306,7 @@ function evaluateYesNo (value) {
                         $(this).val('');
                     }
                 });
+                return false;
             });
 
         }
@@ -313,9 +315,69 @@ function evaluateYesNo (value) {
     committee_names = _.keys(typeaheads.committees);
     candidate_names = _.keys(typeaheads.candidates);
 
+    function cleanAndPresentForm (form) {
+        $(form).find('input,textarea,select').filter(':disabled').each(function(index, el) {
+            var elName = $(el).attr('name');
+            appFormView[elName](undefined);
+        });
+        $('#form-submit-modal').modal();
+   }
+
+    function addFormValidation () {
+        jQuery.validator.addMethod("notplaceholder", function(value, element) {
+            var placeholder = $(element).attr('placeholder');
+            return (value !== placeholder);
+        }, 'This field is required.');
+        $('#fcc_form').validate({
+            errorElement: 'p',
+            errorClass: 'text-error',
+            errorPlacement: function(error, element) {
+                var errorTarget, elType = $(element).attr('type');
+                if (elType == 'radio') {
+                    var groupName = $(element).attr('name');
+                    errorTarget = $('input[name='+ groupName+']').last().parent();
+                }
+                else {
+                    errorTarget = $(element).parent('label').get(0);
+                    if (errorTarget === undefined) {
+                        errorTarget = element;
+                    }
+                }
+                $(errorTarget).after(error);
+            },
+            rules : {
+                startDate: {required: false},
+                endDate: {required: false},
+                beginTime: {required: false},
+                endTime: {required: false},
+                adRate: {required: false},
+                numberSpots: {required: false},
+                timeClass: {required: false}
+            },
+            submitHandler: function(form) {
+                console.log('validated, opening modal.');
+                cleanAndPresentForm(form);
+                return false;
+            }
+        });
+        $('#fcc_form').find('input[placeholder][required], textarea[placeholder][required]').each(function(index, el) {
+            $(el).rules("add", { notplaceholder: true });
+        });
+    }
+
     $(document).ready(function($) {
         attach_typeaheads();
         processPlaceholders();
+        if (!Modernizr.formvalidation) {
+            addFormValidation();
+        }
+        else {
+            $('#fcc_form').submit(function(event) {
+                cleanAndPresentForm(this);
+                event.preventDefault();
+                return false;
+            });
+        }
     });
 });
 

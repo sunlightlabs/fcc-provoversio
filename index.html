@@ -34,9 +34,16 @@
             .modal-body pre {
                 margin-bottom: 0;
             }
-
             .form-inline input {
                 margin-right: 10px;
+            }
+            fieldset p.text-error {
+                margin-top: 0;
+                font-size: 13px;
+                font-weight: bold;
+            }
+            form .text-error {
+                color: #b94a48;
             }
             .purchase-detail {
                 margin-bottom: 20px;
@@ -93,7 +100,7 @@
                         </ul>
                     </div>
                     <div id="app-form" class="span9">
-                        <form id="fcc_form" method="post" action="." autocomplete="off" data-bind="submit: submitForm">
+                        <form id="fcc_form" method="post" action="." autocomplete="off">
                             <div class="row">
                                 <div class="span4">
                                     <fieldset>
