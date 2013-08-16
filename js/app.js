@@ -73,7 +73,7 @@ function($, JSON, ko, _, typeaheads) {
                 "endTime": "7:00am",
                 "adRate": 1400.00,
                 "numberSpots": 1,
-                "timeClass": null
+                "timeClass": 'P1'
             },
             {
                 "startDate": "8/12/13",
@@ -82,7 +82,7 @@ function($, JSON, ko, _, typeaheads) {
                 "endTime": "9:00am",
                 "adRate": 2000.00,
                 "numberSpots": 2,
-                "timeClass": null
+                "timeClass": 'P1'
             },
             {
                 "startDate": "8/12/13",
@@ -91,7 +91,7 @@ function($, JSON, ko, _, typeaheads) {
                 "endTime": "11:35pm",
                 "adRate": 3500.00,
                 "numberSpots": 1,
-                "timeClass": null
+                "timeClass": 'P1'
             }
         ]
     };
